@@ -1,20 +1,27 @@
 <template>
-	<div>HELLO WORLD</div>
+    <div>
+        
+    </div>
 </template>
 
 <script>
 
-export default {
-	name: 'Home',
-	
-	components: {
+import { AInstance } from '../toolbox/TAxios.js'
 
-	}
+export default {
+    name: 'Home',
+    components: {
+
+    },
+
+    mounted() {
+        AInstance.get('https://pokeapi.co/api/v2/pokemon/?limit=151')
+        .then(function (response) {
+            console.log(response)
+        })
+        .catch(function(error) {
+            console.log(error)
+        })
+    }
 }
 </script>
-
-<style scoped>
-
-
-
-</style>

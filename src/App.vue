@@ -1,20 +1,33 @@
 <template>
+  <div>
     <router-view/>
+  </div>
 </template>
 
-<style lang="scss">
+<style lang='scss'>
 
 // ==================================================
 // VARIABLE(S)
 // ==================================================
 
-/* 
-* Setting for fonts.
-*/
+
+// ==================================================
+// VARIABLE(S) - END
+// ==================================================
+
+
+// ==================================================
+// FONTS(S)
+// ==================================================
+
 @font-face {
     font-family: "Poppins-Medium";
     src: url("~@/assets/fonts/Poppins-Medium.ttf") format("truetype");
 }
+
+// ==================================================
+// FONTS(S) - END
+// ==================================================
 
 html, body {
     background: var(--background-color-primary);
@@ -36,7 +49,5 @@ html, body {
     -ms-user-select: none;      /* IE 10+ */
     user-select: none;
 }
-
-
 
 </style>
