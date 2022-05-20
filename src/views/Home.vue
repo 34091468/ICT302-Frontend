@@ -1,6 +1,6 @@
 <template>
-    <div>
-       HELLO WORLD 
+    <div class='root'>
+       
     </div>
 </template>
 
@@ -25,3 +25,23 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+
+.root {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.root .card-header {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 25vh;
+}
+
+</style>

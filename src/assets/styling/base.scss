@@ -1,3 +1,19 @@
+// ====================================================================================================
+// 
+// Name                 :
+// base.scss
+//
+// Version              :
+// 0.0.1
+//
+// Date of Creation     :
+// 20 May 2022
+//
+// Summary              :
+// A list of common stylesheet. Can be editable to fit into the application globally.
+//
+// ====================================================================================================
+
 // --------------------------------------------------
 // BACKGROUND
 // --------------------------------------------------
@@ -17,4 +33,70 @@ $font-color-primary-alternate: #FFFFFF;
 
 // --------------------------------------------------
 // FONT(S) - END
+// --------------------------------------------------
+
+// --------------------------------------------------
+// COLOR SCHEME(S)
+//
+// NOTE: Color Schemes do not affect the font color.
+// It is a representation of different signs based on
+// the color defined.
+//
+// Alternate colors will be used as the background color
+// instead if border exists. The border color will
+// take on the base color instead.
+// --------------------------------------------------
+
+// >!
+// Base Color
+// --------------------------------------------------
+
+$color-scheme-base: #8A8A8A;
+$color-scheme-base-alternate: #E8E8E8;
+$color-scheme-base-hover: #666666;
+$color-scheme-base-active: #303030;
+$color-scheme-base-disabled: #A8A8A8;
+
+// >!
+// Primary Color
+// --------------------------------------------------
+
+$color-scheme-primary: #C87AEB;
+$color-scheme-primary-alternate: #D48AF6;
+$color-scheme-primary-hover: #BC64E3;
+$color-scheme-primary-active: #B14FDB;
+$color-scheme-primary-disabled: #CEA6E0;
+
+// >!
+// Success Color
+// --------------------------------------------------
+
+$color-scheme-success: #00E000;
+$color-scheme-success-alternate: #00F600;
+$color-scheme-success-hover: #00C900;
+$color-scheme-success-active: #00B300;
+$color-scheme-success-disabled: #93C493;
+
+// >!
+// Warning Color
+// --------------------------------------------------
+
+$color-scheme-warning: #FFAF38;
+$color-scheme-warning-alternate: #EEB45E;
+$color-scheme-warning-hover: #FFA621;
+$color-scheme-warning-active: #FF9900;
+$color-scheme-warning-disabled: #E8AC53;
+
+// >!
+// Danger Color
+// --------------------------------------------------
+
+$color-scheme-danger: #FF0000;
+$color-scheme-danger-alternate: #F12121;
+$color-scheme-danger-hover: #E30000;
+$color-scheme-danger-active: #CC0000;
+$color-scheme-danger-disabled: #FF6969;
+
+// --------------------------------------------------
+// COLOR SCHEME(S) - END
 // --------------------------------------------------
