@@ -10,6 +10,7 @@
 // VARIABLE(S)
 // ==================================================
 
+@import '@/assets/styling/base.scss';
 
 // ==================================================
 // VARIABLE(S) - END
@@ -30,8 +31,8 @@
 // ==================================================
 
 html, body {
-    background: var(--background-color-primary);
-    color: var(--font-color-primary);
+    background: $bg-color-primary;
+    color: $font-color-primary;
     position: relative;
     font-family: 'Poppins-Medium' !important;
     font-size: 15px !important;
