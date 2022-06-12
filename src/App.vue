@@ -1,29 +1,27 @@
 <template>
-  <div>
+  <div id='app'>
     <router-view/>
   </div>
 </template>
 
+<script>
+
+</script>
+
 <style lang='scss'>
-
-// ==================================================
-// VARIABLE(S)
-// ==================================================
-
-@import '@/assets/styling/base.scss';
-
-// ==================================================
-// VARIABLE(S) - END
-// ==================================================
-
 
 // ==================================================
 // FONTS(S)
 // ==================================================
 
 @font-face {
-    font-family: "Poppins-Medium";
+    font-family: "Poppins Medium";
     src: url("~@/assets/fonts/Poppins-Medium.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Alegreya Sans SC Medium";
+    src: url("~@/assets/fonts/AlegreyaSansSC-Medium.ttf") format("truetype");
 }
 
 // ==================================================
@@ -31,10 +29,10 @@
 // ==================================================
 
 html, body {
-    background: $bg-color-primary;
+    background: $color-bg-primary;
     color: $font-color-primary;
     position: relative;
-    font-family: 'Poppins-Medium' !important;
+    font-family: $font-family-main !important;
     font-size: 15px !important;
     letter-spacing: 0.1rem;
     width: 100%;
@@ -49,6 +47,19 @@ html, body {
     -moz-user-select: none;     /* Firefox all */
     -ms-user-select: none;      /* IE 10+ */
     user-select: none;
+}
+
+#app {
+    width: 100%;
+    height: 100%;
+}
+
+.base {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
 }
 
 </style>

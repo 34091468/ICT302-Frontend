@@ -15,10 +15,21 @@
 // ====================================================================================================
 
 // --------------------------------------------------
+// MAIN
+// --------------------------------------------------
+
+$color-main: #002029;
+$color-secondary: #FFFAFA;
+
+// --------------------------------------------------
+// MAIN - END
+// --------------------------------------------------
+
+// --------------------------------------------------
 // BACKGROUND
 // --------------------------------------------------
 
-$bg-color-primary: #F5F5F5;
+$color-bg-primary: #FFFAFA;
 
 // --------------------------------------------------
 // BACKGROUND - END
@@ -28,8 +39,19 @@ $bg-color-primary: #F5F5F5;
 // FONT(S)
 // --------------------------------------------------
 
+$font-family-main: "Poppins Medium";
+$font-family-secondary: "Alegreya Sans SC Medium";
+
 $font-color-primary: #141414;
-$font-color-primary-alternate: #FFFFFF;
+$font-color-primary-alternate: #FFFAFA;
+
+$font-size-list-item: 0.8rem;
+$font-size-button: 0.85rem;
+$font-size-input: 0.75rem;
+$font-size-placeholder: 0.7rem;
+$font-size-label: 0.85rem;
+$font-size-message: 0.7rem;
+$font-size-link: 0.6rem;
 
 // --------------------------------------------------
 // FONT(S) - END
@@ -51,21 +73,21 @@ $font-color-primary-alternate: #FFFFFF;
 // Base Color
 // --------------------------------------------------
 
-$color-scheme-base: #8A8A8A;
-$color-scheme-base-alternate: #E8E8E8;
-$color-scheme-base-hover: #666666;
-$color-scheme-base-active: #303030;
-$color-scheme-base-disabled: #A8A8A8;
+$color-scheme-base: #8FABB3;
+$color-scheme-base-alternate: #002029;
+$color-scheme-base-hover: #78868B;
+$color-scheme-base-active: #475D64;
+$color-scheme-base-disabled: rgba(0, 32, 41, 0.6);
 
 // >!
 // Primary Color
 // --------------------------------------------------
 
-$color-scheme-primary: #C87AEB;
-$color-scheme-primary-alternate: #D48AF6;
-$color-scheme-primary-hover: #BC64E3;
-$color-scheme-primary-active: #B14FDB;
-$color-scheme-primary-disabled: #CEA6E0;
+$color-scheme-primary: #86a7b0;
+$color-scheme-primary-alternate: #002029;
+$color-scheme-primary-hover: #78868B;
+$color-scheme-primary-active: #475D64;
+$color-scheme-primary-disabled: rgba(0, 32, 41, 0.6);
 
 // >!
 // Success Color
@@ -97,6 +119,21 @@ $color-scheme-danger-hover: #E30000;
 $color-scheme-danger-active: #CC0000;
 $color-scheme-danger-disabled: #FF6969;
 
+// >!
+// InputField Color
+// --------------------------------------------------
+$color-input-bg: #FFFAFA;
+
 // --------------------------------------------------
 // COLOR SCHEME(S) - END
+// --------------------------------------------------
+
+// --------------------------------------------------
+// TRANSITION(S)
+// --------------------------------------------------
+
+$transition-mouse-events: 0.2s;
+
+// --------------------------------------------------
+// TRANSITION(S) - END
 // --------------------------------------------------
