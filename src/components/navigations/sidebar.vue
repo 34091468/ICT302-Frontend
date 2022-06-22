@@ -1,5 +1,5 @@
 <template>
-    <div class='root'>
+    <div class='root' id='hello'>
         <div id='menu-opener'>
             <img src='@/assets/icons/navigations/side-bar-white.png' alt='' @click='enableMenu(true)'>
         </div>
@@ -15,10 +15,6 @@
                         </div>
                     </li>
                 </ul>
-
-                <div class='menu-flap'>
-                    <img src='@/assets/icons/navigations/login-black.png' alt="">
-                </div>
             </div>
         </transition>
 
@@ -104,6 +100,7 @@ export default {
 .root {
     display: block;
     position: relative;
+    z-index: 10;
 }
 
 .root #menu-opener {
@@ -127,7 +124,7 @@ export default {
     display: block;
     position: fixed;
     top: 0;
-    right: 0;
+    left: 0;
     width: 40%;
     max-height: 100%;
     padding: 3px;
@@ -159,6 +156,21 @@ export default {
     justify-content: space-between;
 }
 
+.root .menu-items .listview > li:active {
+    background: $color-scheme-base-active;
+}
+
+.root .menu-items .listview > li:active::after {
+    content: '';
+    display: block;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    width: 85%;
+    background: $color-scheme-base-active;
+}
+
 .root .menu-items .listview > li::after {
     content: '';
     display: block;
@@ -166,7 +178,7 @@ export default {
     right: 0;
     bottom: 0;
     height: 1px;
-    width: 90%;
+    width: 85%;
     background: #BABABA;
 }
 
@@ -185,9 +197,9 @@ export default {
     display: flex;
     position: relative;
     align-items: center;
-    gap: 5px;
+    gap: 12px;
     width: 100%;
-    height: 35px;
+    height: 50px;
 }
 
 .root .menu-items .listview > li .item > img {
@@ -199,6 +211,7 @@ export default {
     display: block;
     width: 100%;
     font-size: $font-size-list-item;
+    line-height: 0.95rem;
 }
 
 .root .menu-items .menu-flap {
@@ -237,7 +250,7 @@ export default {
 
 .slide-enter,
 .slide-leave-to {
-    transform: translateX(100%);
+    transform: translateX(-100%);
 }
 
 .fade-leave-active,

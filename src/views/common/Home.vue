@@ -9,6 +9,18 @@
                         <img class='menuIcon' src='@/assets/icons/navigations/login-white.png' alt='' @click='routeByName("Login")'>
                     </div>
                 </div>
+
+                <!-- Account Logged In: Administrator -->
+                <!-- Account Logged In: Administrator -->
+
+                <!-- Account Logged In: Unit Coordinator -->
+                <!-- Account Logged In: Unit Coordinator -->
+
+                <!-- Account Logged In: Teacher -->
+                <!-- Account Logged In: Teacher -->
+
+                <!-- Account Logged In: Student -->
+                <!-- Account Logged In: Student -->
                 
             </div>
         </template>
@@ -130,7 +142,7 @@ export default {
          */
         onMenuItemHovered(item, hovered) {
             item.hovered = hovered
-        }
+        },
     }
 }
 </script>
@@ -278,15 +290,15 @@ export default {
 
 .root .menu .listview > li .item .icon > img {
     display: block;
-    width: 12px;
+    width: 15px;
     height: auto;
 }
 
 .root .menu .listview > li .item .icon > img.hovered {
     display: block;
-    width: 15px;
+    width: 18px;
     height: auto;
-    transition: 0.25s;
+    transition: 0.25s ease;
 }
 
 // --------------------------------------------------

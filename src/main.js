@@ -26,7 +26,7 @@ Vue.mixin({
             this.$router.push({
                 name: pathName
             })
-        }
+        },
     }
 })
 

@@ -4,18 +4,30 @@ import VueRouter from 'vue-router'
 /**
  * Common scripts importation
  */
+
 import Home from '../views/common/Home.vue'
 import Login from '../views/common/Login.vue'
+
+/**
+ * Administrator scripts importation
+ */
+
+import AdminHome from '../views/administrator/AdminHome.vue'
 
 import Test from '../views/Test.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
+    // {
+    //     path: '/',
+    //     name: 'Home',
+    //     component: Home
+    // },
     {
         path: '/',
         name: 'Home',
-        component: Home
+        component: AdminHome
     },
     {
         path: '/login',
@@ -23,7 +35,12 @@ const routes = [
         component: Login
     },
     {
-        path: '/',
+        path: '/administrator',
+        name: 'Administrator',
+        components: Home
+    },
+    {
+        path: '/test',
         name: 'Test',
         component: Test
     }
@@ -38,7 +55,6 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  mode: 'history',
   base: process.env.BASE_URL,
   routes
 })

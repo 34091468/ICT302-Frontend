@@ -1,9 +1,9 @@
 <template>
-    <div>
+    <div class='root'>
         <!-- Button: Icon Only -->
         <template 
         v-if='isIconOnly'>
-            <button class='icon-only' :class='[ { outlined, round }, color ]' :disabled='disabled' @click='fireClickedEvent'>
+            <button class='icon-only' :class='[ { outlined, round, expanded }, color ]' :disabled='disabled' @click='fireClickedEvent'>
                 <img :src='getIcon' alt=''>
                 <!-- <img  src='@/assets/logos/logo.png' alt=""> -->
             </button>
@@ -12,7 +12,7 @@
         <!-- Button: Label & Icon -->
         <template 
         v-else-if='hasIcon'>
-            <button class='iconed' :class='[ { outlined, round }, color ]' :disabled='disabled' @click='fireClickedEvent'>
+            <button class='iconed' :class='[ { outlined, round, expanded }, color ]' :disabled='disabled' @click='fireClickedEvent'>
                 <img src='@/assets/logo.png' alt="">
                 <p> {{ getLabel }} </p>
             </button>
@@ -21,7 +21,7 @@
         <!-- Button: Label Only -->
         <template
         v-else>
-            <button :class='[ { outlined, round }, color ]' :disabled='disabled' @click='fireClickedEvent'>
+            <button :class='[ { outlined, round, expanded }, color ]' :disabled='disabled' @click='fireClickedEvent'>
                 {{ getLabel }}
             </button>
         </template>
@@ -60,6 +60,11 @@ export default {
         },
 
         disabled: {
+            type: Boolean,
+            default: false
+        },
+
+        expanded: {
             type: Boolean,
             default: false
         }
@@ -111,6 +116,11 @@ export default {
 
 <style scoped lang='scss'>
 
+.root {
+    width: 100%;
+    height: 100%;
+}
+
 button {
     display: flex;
     justify-content: center;
@@ -118,7 +128,7 @@ button {
     position: relative;
     min-width: 25px;
     width: 100%;
-    height: 25px;
+    height: 35px;
     padding: 2px;
     box-sizing: border-box;
     pointer-events: auto !important;
@@ -126,6 +136,9 @@ button {
     font-family: $font-family-main;
     font-size: $font-size-button;
     letter-spacing: 0.075rem;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 button.icon-only {
@@ -153,6 +166,11 @@ button.iconed > p {
 
 button.round {
     border-radius: 20px;
+}
+
+button.expanded {
+    width: 100% !important;
+    height: 100% !important;
 }
 
 /* --------------------------------------------------
