@@ -6,14 +6,10 @@ import VueRouter from 'vue-router'
  */
 
 import Home from '../views/common/Home.vue'
+import AdminHome from '../views/common/AdminHome.vue'
 import Login from '../views/common/Login.vue'
 
-/**
- * Administrator scripts importation
- */
-
-import AdminHome from '../views/administrator/AdminHome.vue'
-
+import AccountsMain from '../views/accounts/AccountsMain.vue'
 import Test from '../views/Test.vue'
 
 Vue.use(VueRouter)
@@ -27,7 +23,7 @@ const routes = [
     {
         path: '/',
         name: 'Home',
-        component: AdminHome
+        component: Home
     },
     {
         path: '/login',
@@ -37,7 +33,12 @@ const routes = [
     {
         path: '/administrator',
         name: 'Administrator',
-        components: Home
+        component: AdminHome
+    },
+    {
+        path: '/accounts',
+        name: 'accounts',
+        component: AccountsMain
     },
     {
         path: '/test',
@@ -55,8 +56,8 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  base: process.env.BASE_URL,
-  routes
+    base: process.env.BASE_URL,
+    routes
 })
 
 export default router
