@@ -1,4 +1,7 @@
 module.exports = {
+    devServer: {
+        proxy: process.env.VUE_APP_BASEURL
+    },
     css: {
         loaderOptions: {
             // by default the `sass` option will apply to both syntaxes
