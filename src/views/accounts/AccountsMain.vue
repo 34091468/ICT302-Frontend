@@ -13,11 +13,11 @@ import { AInstance } from '@/toolbox/TAxios.js'
 export default {
     name: 'AccountsMain',
     components: {
-        FList
+        
     },
     mounted() {
         console.log(process.env.VUE_APP_BASEURL)
-        this.getAccountList()
+        // this.getAccountList()
     },
     data() {
 
@@ -28,14 +28,14 @@ export default {
         }
     },
     methods: {
-        getAccountList() {
-            AInstance.get('/api')
-            .then(function (response) {
-                console.log(response)
-            })
-            .catch(function(error) {
-                console.log(error)
-            })
+        getAccountRequests() {
+            // AInstance.get('/api')
+            // .then(function (response) {
+            //     console.log(response)
+            // })
+            // .catch(function(error) {
+            //     console.log(error)
+            // })
         }
     }
 }
