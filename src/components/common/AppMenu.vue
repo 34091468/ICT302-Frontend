@@ -1,8 +1,8 @@
 <template>
-    <div class='base'>
+    <div>
         <!-- ELEMENTS: MOBILE APP -->
         <template v-if='isMobileApp()'>
-            <div class='root-mobile'>
+            <div class='appMenu-mobile'>
                 <div class='card-header'>
                     <img src='@/assets/app/app-banner-center-main.png' alt=''>
                     <div class='sidebar'>
@@ -20,7 +20,7 @@
 
         <!-- ELEMENTS: DESKTOP APP -->
         <template v-else>
-            <div class='root'>
+            <div class='appMenu'>
                 <div class='card-header'>
                     <img src='@/assets/app/app-banner-center-main.png' alt=''>
                 </div>
@@ -32,6 +32,7 @@
                             :label='item.label'
                             :expanded='true'
                             color='primary'
+                            @clicked='routeByName(item.route)'
                         ></FButton>
                     </template>
                 </div>
@@ -44,54 +45,46 @@
 
 <script>
 
-import Sidebar from '@/components/navigations/sidebar.vue'
 import FButton from '@/components/common/FButton.vue'
+import Sidebar from '@/components/navigations/sidebar.vue'
 
 export default {
-    name: 'Home',
+    name: 'AppMenu',
+
+    props: {},
+
     components: {
-        Sidebar,
-        FButton
-    },
-
-    mounted() {
-
+        FButton,
+        Sidebar
     },
 
     data() {
-
         /**
          * Configuration for desktop menu in home page for administrator 
          * @type { object }
          */
         const DESKTOP_MENU_OPTIONS = [
             {
-                icon: 'login-black.png',
                 label: 'Account Management',
-                route: ''
+                route: 'Accounts'
             },
             {
-                icon: 'login-black.png',
                 label: 'Unit',
                 route: ''
             },
             {
-                icon: 'login-black.png',
                 label: 'Teaching Space',
                 route: ''
             },
             {
-                icon: 'login-black.png',
                 label: 'Reports',
                 route: ''
             },
             {
-                icon: 'login-black.png',
                 label: 'About',
                 route: ''
             },
             {
-                icon: 'login-black.png',
                 label: 'Profile',
                 route: ''
             }
@@ -107,7 +100,7 @@ export default {
                 {
                     icon: 'login-black.png',
                     label: 'Account Management',
-                    route: ''
+                    route: 'Accounts'
                 },
                 {
                     icon: 'login-black.png',
@@ -136,16 +129,6 @@ export default {
             DESKTOP_MENU_OPTIONS,
             MOBILE_MENU_OPTIONS
         }
-    },
-
-    methods: {
-
-        /**
-         * Event to determine if the item is hovered Used in Menu Item.
-         */
-        onMenuItemHovered(item, hovered) {
-            item.hovered = hovered
-        },
     }
 }
 </script>
@@ -156,7 +139,7 @@ export default {
 // MOBILE STYLE(S)
 // --------------------------------------------------
 
-.root-mobile .card-header {
+.appMenu-mobile .card-header {
     display: block;
     position: relative;
     width: 100%;
@@ -164,7 +147,7 @@ export default {
     box-sizing: content-box;
 }
 
-.root-mobile .card-header .sidebar {
+.appMenu-mobile .card-header .sidebar {
     position: absolute;
     display: flex;
     justify-content: center;
@@ -175,14 +158,14 @@ export default {
     height: 100%;
 }
 
-.root-mobile .card-header > img {
+.appMenu-mobile .card-header > img {
     display: block;
     position: relative;
     width: 100%;
     height: auto;
 }
 
-.root-mobile .card-header .menu {
+.appMenu-mobile .card-header .menu {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -193,7 +176,7 @@ export default {
     height: 100%;
 }
 
-.root-mobile .card-header .menu > img {
+.appMenu-mobile .card-header .menu > img {
     width: 25px;
     height: auto;
 }
@@ -206,7 +189,7 @@ export default {
 // DESKTOP STYLE(S)
 // --------------------------------------------------
 
-.root {
+.appMenu {
     // position: relative;
     // display: flex;
     // flex-direction: column;
@@ -217,7 +200,7 @@ export default {
     height: 100%;
 }
 
-.root .card-header {
+.appMenu .card-header {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -229,14 +212,14 @@ export default {
     background-color: $color-main;
 }
 
-.root .card-header > img {
+.appMenu .card-header > img {
     display: block;
     position: relative;
     width: 100%;
     height: auto;
 }
 
-.root .menu {
+.appMenu .menu {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -245,7 +228,7 @@ export default {
     height: 60px;
 }
 
-.root .menu > * {
+.appMenu .menu > * {
     flex-grow: 5;
 }
 

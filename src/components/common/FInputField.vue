@@ -141,12 +141,13 @@ export default {
     data() {
         /**
          * The state of the card based on mouse event (e.g. hover, active, selected, pressed).
-         * @type { string }
+         * @type { String }
          */
         var inputCardState = ''
 
         /**
          * The value of the input.
+         * @type { String }
          */
         var inputValue = ''
 
@@ -263,7 +264,7 @@ input:active:after  {
     border-radius: 3px;
     transition: $transition-mouse-events;
     width: 100%;
-    height: 25px;
+    height: 30px;
 }
 
 .root-input .input-card.success {

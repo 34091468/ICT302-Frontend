@@ -35,12 +35,11 @@ html, body {
     font-family: $font-family-main !important;
     font-size: 15px !important;
     letter-spacing: 0.1rem;
-    width: 100%;
-    height: 100vh;
+    width: 100vw;
+    min-height: 100vh;
     margin: 0;
     padding: 0;
     border: 0;
-    overflow-x: hidden !important;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-user-select: none;  /* Chrome all / Safari all */
@@ -49,7 +48,13 @@ html, body {
     user-select: none;
 }
 
+body::-webkit-scrollbar {
+    display: none;
+}
+
 #app {
+    position: relative;
+    display: block;
     width: 100%;
     height: 100%;
 }
@@ -60,6 +65,19 @@ html, body {
     margin: 0;
     padding: 0;
     border: 0;
+}
+
+.header {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: $font-size-header;
+    font-weight: 600;
+    height: 35px;
+}
+
+.label {
+    font-size: 0.8rem !important;
 }
 
 </style>

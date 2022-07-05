@@ -1,5 +1,5 @@
 <template>
-    <div class='root'>
+    <div class='root-button'>
         <!-- Button: Icon Only -->
         <template 
         v-if='isIconOnly'>
@@ -13,7 +13,7 @@
         <template 
         v-else-if='hasIcon'>
             <button class='iconed' :class='[ { outlined, round, expanded }, color ]' :disabled='disabled' @click='fireClickedEvent'>
-                <img src='@/assets/logo.png' alt="">
+                <img :src='getIcon' alt="">
                 <p> {{ getLabel }} </p>
             </button>
         </template>
@@ -116,7 +116,7 @@ export default {
 
 <style scoped lang='scss'>
 
-.root {
+.root-button {
     width: 100%;
     height: 100%;
 }
@@ -129,7 +129,7 @@ button {
     min-width: 25px;
     width: 100%;
     height: 35px;
-    padding: 2px;
+    gap: 8px;
     box-sizing: border-box;
     pointer-events: auto !important;
     font-weight: 700;
@@ -153,15 +153,15 @@ button.icon-only > img {
 button.iconed {
     justify-content: flex-start !important;
     min-width: 75px;
+    padding: 0 10px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 button.iconed > img {
-    width: 8px;
-    height: 8px;
-}
-
-button.iconed > p {
-    padding-left: 3px;
+    width: 12px;
+    height: 12px;
 }
 
 button.round {
@@ -266,7 +266,7 @@ BUTTON - SUCCESS
 
 button.success {
     background: $color-scheme-success;
-    color: $color-scheme-primary-alternate;
+    color: $color-secondary;
     border: none;
 }
 
@@ -282,7 +282,7 @@ button.success.outlined {
     }
 
     button.success.outlined:hover {
-        color: $color-scheme-primary-alternate;
+        color: $color-secondary;
         background: $color-scheme-success-hover;
         transition: 0.2s;
     }
@@ -317,7 +317,7 @@ BUTTON - WARNING
 
 button.warning {
     background: $color-scheme-warning;
-    color: $color-scheme-primary-alternate;
+    color: $color-secondary;
     border: none;
 }
 
@@ -368,7 +368,7 @@ BUTTON - DANGER
 
 button.danger {
     background: $color-scheme-danger;
-    color: $color-scheme-primary-alternate;
+    color: $color-secondary;
     border: none;
 }
 
@@ -380,18 +380,20 @@ button.danger.outlined {
 
 @media only screen and (min-width:1280px) {
     button.danger:hover {
+        color: $color-secondary;
         background: $color-scheme-danger-hover;
         transition: 0.2s;
     }
 
     button.danger.outlined:hover {
-        color: $color-scheme-primary-alternate;
+        color: $color-secondary;
         background: $color-scheme-danger-hover;
         transition: 0.2s;
     }
 }
 
 button.danger:active {
+    color: $color-secondary;
     background: $color-scheme-danger-active;
 }
 

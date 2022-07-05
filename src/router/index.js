@@ -6,10 +6,16 @@ import VueRouter from 'vue-router'
  */
 
 import Home from '../views/common/Home.vue'
-import AdminHome from '../views/common/AdminHome.vue'
 import Login from '../views/common/Login.vue'
 
-import AccountsMain from '../views/accounts/AccountsMain.vue'
+/**
+ * Logged In scripts importation
+ */
+
+import Portal from '../views/common/Portal.vue'
+import Accounts from '../views/accounts/Accounts.vue'
+import AccountsForm from '../views/accounts/AccountsForm.vue'
+
 import Test from '../views/Test.vue'
 
 Vue.use(VueRouter)
@@ -31,14 +37,20 @@ const routes = [
         component: Login
     },
     {
-        path: '/administrator',
-        name: 'Administrator',
-        component: AdminHome
+        path: '/portal',
+        name: 'Portal',
+        component: Portal
     },
     {
         path: '/accounts',
-        name: 'accounts',
-        component: AccountsMain
+        name: 'Accounts',
+        component: Accounts
+    },
+    {
+        path: '/register/:account_type',
+        name: 'Register',
+        component: AccountsForm,
+        props: true
     },
     {
         path: '/test',

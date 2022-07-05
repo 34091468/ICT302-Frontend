@@ -1,12 +1,10 @@
 <template>
-    <div class='root'>
-        <div class='card' :class='[{mobile: isMobileApp()}]'>
-            <div class='card-header'>
-                <img src='@/assets/app/app-icon-main.png' alt="" @click='routeByName("Home")'>
-            </div>
-            <div class='card-content'>
+    <div class='base'>
+        <div class='root'>
+            <img :class='{ mobile: isMobileApp() }' src='@/assets/app/app-icon-main.png'>
 
-                <div class='input-body'>
+            <div class='content' :class='{ mobile: isMobileApp() }'>
+                <div class='inputs'>
                     <!-- Username Input -->
                     <FInputField
                     :label='usernameField.label'
@@ -30,27 +28,30 @@
                     <!-- END -->
                 </div>
 
-                <div class='forget-password-link'
-                @click='routeToName("ResetPassword")'>
-                    Forget password?
-                </div>
+                <div class='navigations' :class='{ mobile: isMobileApp() }'>
 
-                <div class='button-body'>
+                    <!-- Button Submission -->
+                    <FButton
+                    label='Return'
+                    color='danger'
+                    outlined
+                    round
+                    @clicked='routeByName("Home")'></FButton>
+                    <!-- Button Submission -->
+                    <!-- END -->
+
                     <!-- Button Submission -->
                     <FButton
                     label='Log In'
                     color='primary'
+                    round
                     @clicked='doLogin'></FButton>
                     <!-- Button Submission -->
                     <!-- END -->
                 </div>
-                
-
-                
             </div>
         </div>
     </div>
-    
 </template>
 
 <script>
@@ -66,7 +67,7 @@ export default {
     },
 
     mounted() {
-
+        
     },
 
     data() {
@@ -120,64 +121,61 @@ export default {
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: center;
+    flex-direction: column;
     width: 100%;
     height: 100%;
+    padding: 25px;
+    gap: 50px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
-.root .card {
+.root img {
+    position: relative;
+    display: block;
+    width: 15%;
+    height: auto;
+    border-radius: 15px;
+}
+
+.root img.mobile {
+    width: 45% !important;
+    height: auto !important;
+}
+
+.root .content {
+    position: relative;
     display: flex;
     align-items: center;
     flex-direction: column;
-    gap: 50px;
+    width: 500px;
+    gap: 25px;
+}
+
+.root .content.mobile {
+    width: 80% !important;
+}
+
+.root .content .inputs {
     position: relative;
-    width: 50%;
-}
-
-.root .card.mobile {
-    width: 100% !important;
-}
-
-.root .card .card-header {
     display: flex;
-    justify-content: center;
-    position: relative;
+    flex-direction: column;
+    gap: 25px;
     width: 100%;
 }
 
-.root .card .card-header > img {
-    display: block;
+.root .content .navigations {
     position: relative;
-    width: 20%;
-    height: auto;
-    border-radius: 5%;
-}
-
-.root .card.mobile .card-header > img {
-    width: 30% !important;
-    height: auto;
-}
-
-.root .card .card-content {
-    position: relative;
-    width: 70%;
-}
-
-.root .card .card-content .input-body {
     display: flex;
     align-items: center;
-    flex-direction: column;
-    gap: 15px;
+    justify-content: center;
+    width: 100%;
+    gap: 50px;
 }
 
-.root .card .card-content .forget-password-link {
-    font-size: $font-size-link;
-    font-style: italic;
-    height: 25px;
-}
-
-.root .card .card-content .button-body {
-    margin-top: 15px;
+.root .content .navigations > * {
+    padding: 0 !important;
 }
 
 </style>

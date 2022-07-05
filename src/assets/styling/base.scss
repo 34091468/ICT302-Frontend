@@ -48,6 +48,8 @@ $font-color-primary: #141414;
 $font-color-primary-alternate: #FFFAFA;
 $font-color-footer: #E8E8E8;
 
+$font-size-header: 1.5rem;
+$font-size-list-item-selected: 0.95rem;
 $font-size-list-item: 0.8rem;
 $font-size-button: 0.85rem;
 $font-size-input: 0.75rem;
@@ -110,7 +112,7 @@ $color-scheme-warning: #FFAF38;
 $color-scheme-warning-alternate: #EEB45E;
 $color-scheme-warning-hover: #FFA621;
 $color-scheme-warning-active: #FF9900;
-$color-scheme-warning-disabled: #E8AC53;
+$color-scheme-warning-disabled: #ff990090;
 
 // >!
 // Danger Color
