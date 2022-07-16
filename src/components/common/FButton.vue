@@ -152,7 +152,7 @@ button.icon-only > img {
 
 button.iconed {
     justify-content: flex-start !important;
-    min-width: 75px;
+    min-width: 100px;
     padding: 0 10px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -214,24 +214,25 @@ BUTTON - PRIMARY
 
 button.primary {
     background: $color-scheme-primary;
-    color: $color-scheme-primary-alternate;
+    color: $font-color-primary;
     border: none;
 }
 
 button.primary.outlined {
-    color: $color-scheme-primary;
+    color: $font-color-primary-alternate;
     background: white;
     border: 1px solid $color-scheme-primary;
 }
 
 @media only screen and (min-width:1280px) {
     button.primary:hover {
+        color: $font-color-primary;
         background: $color-scheme-primary-hover;
         transition: 0.2s;
     }
 
     button.primary.outlined:hover {
-        color: $color-scheme-primary-alternate;
+        color: $font-color-primary;
         background: $color-scheme-primary-hover;
         transition: 0.2s;
     }
@@ -240,6 +241,7 @@ button.primary.outlined {
 
 button.primary:active {
     background: $color-scheme-primary-active;
+    color: $color-secondary;
 }
 
 button.primary.outlined:active {
@@ -406,9 +408,9 @@ button.danger:disabled {
 }
 
 button.danger.outlined:disabled {
-    color: $font-color-primary-alternate;
+    color: $color-scheme-danger-disabled;
     border: 1px solid $color-scheme-danger-disabled;
-    background: $color-scheme-base-disabled;
+    background: $font-color-primary;
 }
 
 /* --------------------------------------------------

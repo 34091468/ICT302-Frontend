@@ -7,7 +7,7 @@
                     <div class='tabs' :class='[ { mobile: isMobileApp() } ]' >
                         <template v-for='option in Object.keys(TABS_OPTIONS)'>
                             <div class='tab' 
-                            :class='[ {selected: TABS_OPTIONS[option].selected, mobile: isMobileApp() } ]' 
+                            :class='[ {selectedTab: TABS_OPTIONS[option].selectedTab, mobile: isMobileApp() } ]' 
                             :key='TABS_OPTIONS[option].key'
                             @click='changeTabView(TABS_OPTIONS[option].key)'>
                                 {{ TABS_OPTIONS[option].label }}
@@ -15,40 +15,62 @@
                         </template>
                     </div>
                 </div>
-            
-            <template v-for='option in Object.keys(TABS_OPTIONS)'>
-                <div class='view' 
-                v-if='TABS_OPTIONS[option].selected' 
-                :key='TABS_OPTIONS[option].key'>
 
+                <div class='view-controls'>
                     <div class='view-options'>
                         <div class='option'>
                             <FButton
                             label='Create'
                             icon='common/add-white.png'
                             color='success'
-                            @clicked='routeToRegister(TABS_OPTIONS[selected].slug)'></FButton>
+                            @clicked='routeByName("Register", {
+                                account_type: TABS_OPTIONS[selectedTab].slug
+                            })'></FButton>
                         </div>
                         <div class='option'>
                             <FButton
                             label='Edit'
                             icon='common/edit-white.png'
                             color='warning'
-                            disabled></FButton>
-                        </div>
-                        <div class='option'>
-                            <FButton
-                            label='Delete'
-                            icon='common/trash-white.png'
-                            color='danger'
-                            disabled></FButton>
+                            :disabled='selectedTableField === null'
+                            @clicked='routeByName("EditAccount", {
+                                accountId: selectedTableField.account_id
+                            })'></FButton>
                         </div>
                     </div>
-
-                    <b-table :data="data" :columns="columns"></b-table>
-
                 </div>
-            </template>
+            <transition name='fade' mode='out-in'>
+                <template v-for='option in Object.keys(TABS_OPTIONS)'>
+                    
+                    <div
+                    v-if='TABS_OPTIONS[option].selectedTab' 
+                    :key='TABS_OPTIONS[option].key'>
+
+                        <template v-if='TABS_OPTIONS[option].status === 200'>
+                            <b-table 
+                            :data="TABS_OPTIONS[option].data" 
+                            :columns="TABLE_COLUMNS"
+                            :selected.sync='selectedTableField'
+
+                            :paginated='true'
+                            :per-page='TABS_OPTIONS[option].perPage'
+                            :total='TABS_OPTIONS[option].data.length'
+                            aria-next-label="Next"
+                            aria-previos-label="Previous"
+                            aria-page-label="Page"
+                            aria-current-label="Current" ></b-table>
+                        </template>
+                        
+                        <template v-else>
+                            <FStatusResponses
+                            :code='TABS_OPTIONS[option].status'
+                            :message='TABS_OPTIONS[option].message'
+                            ></FStatusResponses>
+                        </template>
+                    </div>
+
+                </template>
+            </transition>
         </div>
     </div>
 </template>
@@ -57,17 +79,24 @@
 
 import AppHeader from '@/components/common/AppMenu.vue'
 import FButton from '@/components/common/FButton.vue'
+import FStatusResponses from '@/components/status/FStatusResponses.vue'
+import axios from 'axios'
+import { ACCOUNT_GROUP_TYPE, GENDER_TYPE_INDEX } from '@/utilities/account.utility.js'
+import { convertDate } from '@/utilities/date.utility.js'
+import { AInstance } from '@/toolbox/TAxios.js'
 
 export default {
     name: 'Accounts',
 
     components: {
         AppHeader,
-        FButton
+        FButton,
+        FStatusResponses
     },
 
     mounted() {
-        this.selected = 'ADMINISTRATOR'
+        this.selectedTab = 'ADMINISTRATOR'
+        this.getAccounts()
     },
 
     data() {
@@ -79,31 +108,48 @@ export default {
                 key: 'ADMINISTRATOR',
                 icon: '',
                 slug: 'administrator',
-                selected: true
+                selectedTab: true,
+                data: [],
+                status: 0,
+                message: '',
+                perPage: 10,
+                total: 0
             },
 
             'UNIT_COORDINATOR': {
                 label: 'Unit Coordinator',
                 key: 'UNIT_COORDINATOR',
-                icon: '',
                 slug: 'unit_coordinator',
-                selected: false
+                selectedTab: false,
+                data: [],
+                status: 0,
+                message: '',
+                perPage: 10,
+                total: 0
             },
 
             'TEACHER': {
                 label: 'Teacher',
                 key: 'TEACHER',
-                icon: '',
                 slug: 'teacher',
-                selected: false
+                selectedTab: false,
+                data: [],
+                status: 0,
+                message: '',
+                perPage: 10,
+                total: 0
             },
 
             'STUDENT': {
                 label: 'Student',
                 key: 'STUDENT',
-                icon: '',
                 slug: 'student',
-                selected: false
+                selectedTab: false,
+                data: [],
+                status: 0,
+                message: '',
+                perPage: 10,
+                total: 0
             }
         }
 
@@ -111,57 +157,144 @@ export default {
          * Selected Tab View in string. Holds the key to the options
          * @type { String }
          */
-        let selected = 'ADMINISTRATOR'
+        let selectedTab = 'ADMINISTRATOR'
+        let selectedTableField = null
+
+        const TABLE_COLUMNS = [
+            {
+                field: 'user_id',
+                label: 'User ID',
+                searchable: true
+            },
+            {
+                field: 'first_name',
+                label: 'First Name',
+                searchable: true
+            },
+            {
+                field: 'last_name',
+                label: 'Last Name',
+                searchable: true
+            },
+            {
+                field: 'dob',
+                label: 'Date of Birth',
+                centered: true,
+            },
+            {
+                field: 'gender',
+                label: 'Gender'
+            },
+            {
+                field: 'status',
+                label: 'Status',
+                searchable: true
+            }
+        ]
 
         return {
             TABS_OPTIONS,
-            selected,
-
-            data: [
-                    { 'id': 1, 'first_name': 'Jesse', 'last_name': 'Simmons', 'date': '2016-10-15 13:43:27', 'gender': 'Male' },
-                    { 'id': 2, 'first_name': 'John', 'last_name': 'Jacobs', 'date': '2016-12-15 06:00:53', 'gender': 'Male' },
-                    { 'id': 3, 'first_name': 'Tina', 'last_name': 'Gilbert', 'date': '2016-04-26 06:26:28', 'gender': 'Female' },
-                    { 'id': 4, 'first_name': 'Clarence', 'last_name': 'Flores', 'date': '2016-04-10 10:28:46', 'gender': 'Male' },
-                    { 'id': 5, 'first_name': 'Anne', 'last_name': 'Lee', 'date': '2016-12-06 14:38:38', 'gender': 'Female' }
-                ],
-                columns: [
-                    {
-                        field: 'id',
-                        label: 'ID',
-                        width: '40',
-                        numeric: true
-                    },
-                    {
-                        field: 'first_name',
-                        label: 'First Name',
-                    },
-                    {
-                        field: 'last_name',
-                        label: 'Last Name',
-                    },
-                    {
-                        field: 'date',
-                        label: 'Date',
-                        centered: true
-                    },
-                    {
-                        field: 'gender',
-                        label: 'Gender',
-                    }
-                ]
+            selectedTab,
+            selectedTableField,
+            TABLE_COLUMNS
         }
     },
 
     methods: {
 
+        print() {
+            console.log(this.selectedTableField)
+        },
+
         /**
          * Changes the view of tab.
          */
         changeTabView(key) {
-            if (key === this.selected) return
-            this.TABS_OPTIONS[this.selected].selected = false
-            this.TABS_OPTIONS[key].selected = true
-            this.selected = key
+            if (key === this.selectedTab) return
+            this.TABS_OPTIONS[this.selectedTab].selectedTab = false
+            this.TABS_OPTIONS[key].selectedTab = true
+            this.selectedTab = key
+            this.selectedTableField = null
+        },
+
+        /**
+         * Retrieve all accounts.
+         */
+        getAccounts() {
+            let getAdministratorRequest = AInstance.get('/api/accounts', {
+                params: {
+                    group_type: ACCOUNT_GROUP_TYPE.ADMINISTRATOR.group_num
+                }
+            })
+
+            let getUnitCoordinatorRequest = AInstance.get('/api/accounts', {
+                params: {
+                    group_type: ACCOUNT_GROUP_TYPE.UNIT_COORDINATOR.group_num
+                }
+            })
+
+            let getTeacherRequest = AInstance.get('/api/accounts', {
+                params: {
+                    group_type: ACCOUNT_GROUP_TYPE.TEACHER.group_num
+                }
+            })
+
+            let getStudentRequest = AInstance.get('/api/accounts', {
+                params: {
+                    group_type: ACCOUNT_GROUP_TYPE.STUDENT.group_num
+                }
+            })
+
+            axios.all([getAdministratorRequest, getUnitCoordinatorRequest, getTeacherRequest, getStudentRequest])
+            .then(axios.spread((...responses) => {
+                const administratorResponse = responses[ 0 ]
+                const unitCoordinatorResponse = responses[ 1 ]
+                const teacherResponse = responses[ 2 ]
+                const studentResponse = responses[ 3 ]
+
+                if (administratorResponse.status === 200) {
+                    this.TABS_OPTIONS.ADMINISTRATOR.data = [...administratorResponse.data.data]
+                    this.TABS_OPTIONS.ADMINISTRATOR.message = administratorResponse.data.message
+                }
+                else if (administratorResponse.status === 204) this.TABS_OPTIONS.ADMINISTRATOR.message = 'There are no accounts in this group!'
+                this.TABS_OPTIONS.ADMINISTRATOR.status = administratorResponse.status
+        
+                if (unitCoordinatorResponse.status === 200) {
+                    this.TABS_OPTIONS.UNIT_COORDINATOR.data = [...unitCoordinatorResponse.data.data]
+                    this.TABS_OPTIONS.UNIT_COORDINATOR.message = unitCoordinatorResponse.data.message
+                }
+                else if (unitCoordinatorResponse.status === 204) this.TABS_OPTIONS.UNIT_COORDINATOR.message = 'There are no accounts in this group!'
+                this.TABS_OPTIONS.UNIT_COORDINATOR.status = unitCoordinatorResponse.status
+
+                if (teacherResponse.status === 200) {
+                    this.TABS_OPTIONS.TEACHER.data = [...teacherResponse.data.data]
+                    this.TABS_OPTIONS.TEACHER.message = teacherResponse.data.message
+                }
+                else if (teacherResponse.status === 204) this.TABS_OPTIONS.TEACHER.message = 'There are no accounts in this group!'
+                this.TABS_OPTIONS.TEACHER.status = teacherResponse.status
+
+                if (studentResponse.status === 200) {
+                    this.TABS_OPTIONS.STUDENT.data = [...studentResponse.data.data]
+                    this.TABS_OPTIONS.STUDENT.message = studentResponse.data.message
+                }
+                else if (studentResponse.status === 204) this.TABS_OPTIONS.STUDENT.message = 'There are no accounts in this group!'
+                this.TABS_OPTIONS.STUDENT.status = studentResponse.status
+            }))
+            .then(() => {
+                this.accountDataConversion()
+            })
+        },
+
+        accountDataConversion() {
+
+            Object.keys(this.TABS_OPTIONS).forEach(key => {
+                if (this.TABS_OPTIONS[ key ].status === 200) {
+                    this.TABS_OPTIONS[ key ].data.forEach(item => {
+                        item.gender = GENDER_TYPE_INDEX[ item.gender ]
+                        item.dob = convertDate(item.dob, true)
+                    })
+                }
+            })
         }
     }
 }
@@ -234,14 +367,15 @@ export default {
     transition: font-size 0.25s ease, border-bottom 0.25s ease;
 }
 
-.content .view-tabs .tabs .tab.selected {
+.content .view-tabs .tabs .tab.selectedTab {
     font-size: $font-size-list-item-selected;
     border-bottom: 2px solid $color-scheme-primary-active;
 }
 
-.content .view {
+.content .view-controls {
     position: relative;
     display: flex;
+    align-items: center;
     flex-direction: column;
     gap: 25px;
     width: 100%;
@@ -251,16 +385,42 @@ export default {
     box-sizing: border-box;
 }
 
-.content .view .view-options {
+.content .view-controls .view-options {
     position: relative;
     display: flex;
+    align-items: center;
+    justify-content: center;
     align-items: center;
     width: 100%;
     height: 50px;
     gap: 10px;
 }
 
-.content .view .option {
+@media only screen and (min-width:1280px) {
+    .content .view-controls {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+        width: 100%;
+        padding: 0 10px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    .content .view-controls .view-options {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        width: 100%;
+        height: 50px;
+        gap: 10px;
+    }
+}
+
+.content .view-controls .option {
     position: relative;
     display: block;
     border: 0;

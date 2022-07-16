@@ -3,7 +3,7 @@
         <div class='root'>
             <ul class='listview' :class='[getListViewColor]'>
                 <template v-for='item in listItems'>
-                    <li :key='item.label' :class='[getListViewColor]'>
+                    <li :key='item.label' :class='[getListViewColor]' @click='onClicked($event, item)'>
                         <div class='item'>
                             <div class='in'>
                                 <template v-if='hasHeaderAndFooter(item)'>
@@ -42,11 +42,13 @@ export default {
                 return []
             }
         },
+
         round: {
             type: Boolean,
             required: false,
             default: false
         },
+
         color: {
             type: String,
             required: false,
@@ -66,6 +68,14 @@ export default {
         }
     },
 
+    data() {
+        var selectedListItem = null
+
+        return {
+            selectedListItem
+        }
+    },
+
     methods: {
         /**
          * Checks if header AND footer exists
@@ -74,6 +84,19 @@ export default {
         hasHeaderAndFooter(item) {
             return (item.header !== null && item.footer !== null)
         },
+
+        onClicked(event, item) {
+            if (this.selectedListItem === event.target) {
+                this.selectedListItem.classList.remove('selected')
+                this.$emit('selected', null)
+                return
+            }
+            if (this.selectedListItem) this.selectedListItem.classList.remove('selected')
+            event.target.classList.add('selected')
+            console.log(item)
+            // this.$emit('selected', item)
+            this.selectedListItem = event.target
+        }
     }
 }
 </script>
@@ -108,6 +131,7 @@ export default {
     position: relative;
     width: 100%;
     height: 75px;
+    margin: 0;
     background: $color-scheme-base;
     list-style: none;
 }
@@ -127,19 +151,30 @@ export default {
     background: $color-scheme-primary-alternate !important;
 }
 
-.root .listview > li:hover {
-    background: $color-scheme-base-hover;
+@media only screen and (min-width:1280px) {
+    .root .listview > li:hover {
+        background: $color-scheme-base-hover;
+    }
+
+    .root .listview > li.primary:hover {
+        background: $color-scheme-primary-hover;
+    }
 }
 
-.root .listview > li.primary:hover {
-    background: $color-scheme-primary-hover;
-}
 
 .root .listview > li:active {
     background: $color-scheme-base-active;
 }
 
 .root .listview > li.primary:active {
+    background: $color-scheme-primary-active;
+}
+
+.root .listview > li.selected {
+    background: $color-scheme-base-active !important;
+}
+
+.root .listview > li.primary.selected {
     background: $color-scheme-primary-active;
 }
 
@@ -174,12 +209,14 @@ export default {
     position: relative;
     font-weight: 700;
     font-size: 0.7rem;
+    color: $font-color-primary-alternate;
 }
 
 .root .listview > li .item .in > span {
     position: relative;
-    font-size: 0.8rem;
+    font-size: 0.95rem;
     padding: 5px 0;
+    color: $font-color-primary-alternate;
 }
 
 .root .listview > li .item .in > footer {

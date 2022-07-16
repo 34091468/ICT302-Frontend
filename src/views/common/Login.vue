@@ -1,29 +1,38 @@
 <template>
     <div class='base'>
         <div class='root'>
-            <img :class='{ mobile: isMobileApp() }' src='@/assets/app/app-icon-main.png'>
+            <img :class='{ mobile: isMobileApp() }' src='@/assets/app/app-mu-icon-black.png'>
 
             <div class='content' :class='{ mobile: isMobileApp() }'>
                 <div class='inputs'>
                     <!-- Username Input -->
-                    <FInputField
-                    :label='usernameField.label'
-                    :placeholder='usernameField.placeholder'
-                    :maxlength='usernameField.maxlength'
-                    :validation='loginValidation'
-                    @update:modelValue='newValue => usernameField.input = newValue'
-                    ></FInputField>
+                    <b-field 
+                    :label='usernameField.label' 
+                    :type='usernameField.color' 
+                    :message='usernameField.message'>
+                        <b-input 
+                        v-model='usernameField.value'
+                        expanded
+                        :has-counter='false'
+                        :maxlength='usernameField.maxlength'
+                        ></b-input>
+                    </b-field>
                     <!-- Username Input -->
                     <!-- END -->
 
                     <!-- Password Input -->
-                    <FInputField
-                    :label='passwordField.label'
-                    :placeholder='passwordField.placeholder'
-                    type='password'
-                    :validation='loginValidation'
-                    @update:modelValue='newValue => passwordField.input = newValue'
-                    ></FInputField>
+                    <b-field 
+                    :label='passwordField.label' 
+                    :type='passwordField.color' 
+                    :message='passwordField.message'>
+                        <b-input 
+                        v-model='passwordField.value'
+                        expanded
+                        :has-counter='false'
+                        :maxlength='passwordField.maxlength'
+                        type='password'
+                        ></b-input>
+                    </b-field>
                     <!-- Password Input -->
                     <!-- END -->
                 </div>
@@ -56,13 +65,13 @@
 
 <script>
 
-import FInputField from '@/components/common/FInputField.vue'
 import FButton from '@/components/common/FButton.vue'
+import { emptyInputMessage } from '@/utilities/field.messages.js'
+import { AInstance } from '@/toolbox/TAxios.js'
 
 export default {
     name: 'Login',
     components: {
-        FInputField,
         FButton
     },
 
@@ -78,9 +87,13 @@ export default {
          */
         var usernameField = {
             label: 'Username',
-            placeholder: 'Please enter your username',
+            placeholder: 'Please enter your Murdoch Id',
             maxlength: 8,
-            input: ''
+            input: '',
+            validation: {
+                result: '',
+                message: ''
+            }
         }
 
         /**
@@ -90,17 +103,13 @@ export default {
         var passwordField = {
             label: 'Password',
             placeholder: 'Please enter your password',
-            input: ''
-        }
-
-        var loginValidation = {
-            result: ''
+            input: '',
+            color: ''
         }
 
         return {
             usernameField,
             passwordField,
-            loginValidation
         }
     },
 
@@ -109,7 +118,59 @@ export default {
          * Creates a Login API request. Also handles success or fail factor.
          */
         doLogin () {
-            console.log('Hello')
+            let success = true
+
+            if (this.usernameField.value === '' ||
+                this.usernameField.value === null ||
+                this.usernameField.value === undefined) {
+                this.usernameField.color = 'is-danger'
+                this.usernameField.message = emptyInputMessage('Username')
+                success = false
+            }
+
+            else {
+                this.usernameField.color = ''
+                this.usernameField.message = ''
+            }
+
+            if (this.passwordField.value === '' ||
+                this.passwordField.value === null ||
+                this.passwordField.value === undefined) {
+                this.passwordField.color = 'danger'
+                this.passwordField.message = emptyInputMessage('Password')
+                success = false
+            }
+
+            else {
+                this.passwordField.color = ''
+                this.passwordField.message = ''
+            }
+
+            if (success) {
+                console.log('Success')
+                let encodedPassword = Buffer.from(this.passwordField.value).toString('base64')
+                AInstance.post('/api/user/login', {
+                    user_id: this.usernameField.value,
+                    password: encodedPassword
+                })
+                .then((response) => {
+                    this.$buefy.toast.open({
+                        duration: 3000,
+                        type: 'is-success',
+                        message: response.data.message
+                    })
+                    localStorage.token = response.data.token
+                    this.routeByName('Portal')
+                })
+                .catch((error) => {
+                    console.log('error')
+                    this.usernameField.color = 'is-danger'
+                    this.usernameField.message = error.response.data.message
+
+                    this.passwordField.color = 'is-danger'
+                    if (error.response.data.code === 403) this.passwordField.message = error.response.data.message
+                })
+            }
         }
     }
 }
@@ -121,9 +182,10 @@ export default {
     position: relative;
     display: flex;
     align-items: center;
+    justify-content: center;
     flex-direction: column;
     width: 100%;
-    height: 100%;
+    min-height: 100vh;
     padding: 25px;
     gap: 50px;
     -webkit-box-sizing: border-box;

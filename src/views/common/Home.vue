@@ -4,7 +4,7 @@
         <template v-if='isMobileApp()'>
             <div class='root-mobile'>
                 <div class='card-header'>
-                    <img src='@/assets/app/app-banner-left-main.png' alt=''>
+                    <img src='@/assets/app/app-mu-banner-left-black.png' alt=''>
                     <div class='menu'>
                         <img class='menuIcon' src='@/assets/icons/navigations/login-white.png' alt='' @click='routeByName("Login")'>
                     </div>
@@ -19,16 +19,15 @@
         <template v-else>
             <div class='root'>
                 <div class='card-header'>
-                    <img src='@/assets/app/app-banner-center-main.png' alt=''>
+                    <img src='@/assets/app/app-mulong-banner-left-black.png' alt=''>
                 </div>
 
                 <div class='menu'>
                     <div class='menu-login '>
                         <FButton
                         label='Login'
-                        icon='navigations/login-black.png'
                         color='primary'
-                        round
+                        outlined
                         @clicked='routeByName("Login")'></FButton>
                     </div>
                 </div>
@@ -54,13 +53,9 @@ export default {
     },
 
     mounted() {
-        // AInstance.get('https://pokeapi.co/api/v2/pokemon/?limit=151')
-        // .then(function (response) {
-        //     console.log(response)
-        // })
-        // .catch(function(error) {
-        //     console.log(error)
-        // })
+        if (localStorage.token) {
+            this.routeByName('Portal')
+        }
     },
 
     methods: {

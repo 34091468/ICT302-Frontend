@@ -43,7 +43,7 @@
                             <b-datepicker
                                 expanded
                                 v-model='key.value'
-                                :locale='undefined'
+                                :locale='locale'
                                 :icon-right='key.value ? "close-circle" : ""'
                                 icon-right-clickable
                                 @icon-right-click='clearDate'
@@ -74,9 +74,9 @@
 
 import AppHeader from '@/components/common/AppMenu.vue'
 import FButton from '@/components/common/FButton.vue'
-import { NAME_REGEX, NRIC_REGEX, CONTACT_NUMBER_REGEX } from '@/utilities/regex.utility.js'
+import { NAME_REGEX, NUMERIC_ONLY_REGEX } from '@/utilities/regex.utility.js'
 import { ACCOUNT_GROUP_TYPE, GENDER_TYPE, MINIMUM_AGE } from '@/utilities/account.utility.js'
-import { emptyInputMessage, noMinimumLengthMessage, alphabetsOnlyMessage, errorIdentityNumberMessage, onlyNumericMessage, emptyDropdownMessage } from '@/utilities/field.messages.js'
+import { emptyInputMessage, noMinimumLengthMessage, alphabetsOnlyMessage, onlyNumericMessage, emptyDropdownMessage } from '@/utilities/field.messages.js'
 import { noMinimumAgeMessage } from '@/utilities/date.messages.js'
 import { AInstance } from '@/toolbox/TAxios.js'
 
@@ -99,6 +99,18 @@ export default {
     data() {
 
         var accountForm = {
+
+            identityNo: {
+                label: 'Murdoch Id',
+                placeholder: 'Enter Murdoch Id...',
+                type: 'input-field',
+                input_type: 'text',
+                minlength: 8,
+                maxlength: 8,
+                value: '',
+                color: '',
+                message: ''
+            },
 
             salutation: {
                 label: 'Salutation',
@@ -160,32 +172,6 @@ export default {
                 message: ''
             },
 
-            nationality: {
-                label: 'Nationality',
-                type: 'drop-down',
-                drop_type: 'full',
-                selection: [
-                    'Singaporean',
-                    'PR',
-                    'Foreigner'
-                ],
-                value: 'Nationality',
-                color: '',
-                message: ''
-            },
-
-            identityNo: {
-                label: 'NRIC',
-                placeholder: 'Enter NRIC...',
-                type: 'input-field',
-                input_type: 'text',
-                minlength: 9,
-                maxlength: 9,
-                value: '',
-                color: '',
-                message: ''
-            },
-
             contactNo: {
                 label: 'Contact Number',
                 placeholder: 'Enter contact number...',
@@ -197,6 +183,7 @@ export default {
                 color: '',
                 message: ''
             },
+
             password: {
                 label: 'Password',
                 placeholder: 'Enter password...',
@@ -211,7 +198,8 @@ export default {
         }
 
         return {
-            accountForm
+            accountForm,
+            locale: 'en-CA'
         }
     },
 
@@ -223,6 +211,30 @@ export default {
         validateRegistration() {
 
             let success = true
+
+            // >!
+            // Murdoch Id Validation
+            // --------------------------------------------------
+
+            if (this.accountForm.identityNo.value === '' ||
+                this.accountForm.identityNo.value === null ||
+                this.accountForm.identityNo.value === undefined) {
+                
+                this.accountForm.identityNo.color = 'is-danger'
+                this.accountForm.identityNo.message = emptyInputMessage('Murdoch Id')
+                success = false
+            }
+
+            else if (this.accountForm.identityNo.value.length < this.accountForm.identityNo.minlength) {
+                this.accountForm.identityNo.color = 'is-danger'
+                this.accountForm.identityNo.message = noMinimumLengthMessage(this.accountForm.identityNo.minlength)
+                success = false
+            }
+
+            else {
+                this.accountForm.identityNo.color = 'is-success'
+                this.accountForm.identityNo.message = ''
+            }
 
             // >!
             // Salutation Validation
@@ -320,45 +332,6 @@ export default {
             }
 
             // >!
-            // nationality Validation
-            // --------------------------------------------------
-
-            if (this.accountForm.nationality.value.toLowerCase() === 'nationality') {
-                this.accountForm.nationality.color = 'is-danger'
-                this.accountForm.nationality.message = emptyDropdownMessage('nationality')
-                success = false
-            }
-
-            else {
-                this.accountForm.nationality.color = ''
-                this.accountForm.nationality.message = ''
-            }
-
-            // >!
-            // NRIC Validation
-            // --------------------------------------------------
-
-            if (this.accountForm.identityNo.value === '' ||
-                this.accountForm.identityNo.value === null ||
-                this.accountForm.identityNo.value === undefined) {
-                
-                this.accountForm.identityNo.color = 'is-danger'
-                this.accountForm.identityNo.message = emptyInputMessage('Identity Number')
-                success = false
-            }
-
-            else if (!this.accountForm.identityNo.value.match(NRIC_REGEX)) {
-                this.accountForm.identityNo.color = 'is-danger'
-                this.accountForm.identityNo.message = errorIdentityNumberMessage('Identity Number')
-                success = false
-            }
-
-            else {
-                this.accountForm.identityNo.color = 'is-success'
-                this.accountForm.identityNo.message = ''
-            }
-
-            // >!
             // Contact Number Validation
             // --------------------------------------------------
 
@@ -371,7 +344,7 @@ export default {
                 success = false
             }
 
-            else if (!this.accountForm.contactNo.value.match(CONTACT_NUMBER_REGEX)) {
+            else if (!this.accountForm.contactNo.value.match(NUMERIC_ONLY_REGEX)) {
                 this.accountForm.contactNo.color = 'is-danger'
                 this.accountForm.contactNo.message = onlyNumericMessage('Contact')
                 success = false
@@ -409,7 +382,6 @@ export default {
             if (success) {
                 let encodedPassword = window.btoa(this.accountForm.password.value)
                 let contactNumber = window.btoa(this.accountForm.contactNo.value)
-                let identityNumber = window.btoa(this.accountForm.identityNo.value)
                 AInstance.post('/api/user/register', {
                     salutation: this.accountForm.salutation.value,
                     first_name: this.accountForm.firstName.value,
@@ -418,8 +390,7 @@ export default {
                     month: this.accountForm.dob.value.getMonth(),
                     year: this.accountForm.dob.value.getFullYear(),
                     contact_number: contactNumber,
-                    identity_number: identityNumber,
-                    nationality: this.accountForm.nationality.value,
+                    identity_number: this.accountForm.identityNo.value,
                     group_type: ACCOUNT_GROUP_TYPE[ this.account_type.toUpperCase() ].group_num,
                     password: encodedPassword,
                     gender: GENDER_TYPE[ this.accountForm.gender.value.toUpperCase() ].index
@@ -457,7 +428,6 @@ export default {
     align-items: center;
     flex-direction: column;
     width: 100%;
-    height: auto;
     gap: 50px;
     padding: 25px;
     -webkit-box-sizing: border-box;
@@ -488,7 +458,6 @@ export default {
         align-items: center;
         flex-direction: column;
         width: 100%;
-        height: auto;
         gap: 50px;
         padding: 50px 10%;
         -webkit-box-sizing: border-box;

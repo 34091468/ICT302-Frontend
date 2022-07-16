@@ -127,7 +127,6 @@ export default {
     left: 0;
     width: 40%;
     max-height: 100%;
-    padding: 3px;
     border: 1px solid $color-scheme-base-active;
     background-color: $color-scheme-base;
     border-radius: 0 0 0 5px;
@@ -146,43 +145,52 @@ export default {
     height: 100%;
     padding: 0;
     margin: 0;
-    color: $font-color-primary;   
 }
 
-.root .menu-items .listview > li {
+.root .menu-items .listview li {
     display: flex;
     position: relative;
     align-items: center;
     justify-content: space-between;
 }
 
-.root .menu-items .listview > li:active {
+.root .menu-items .listview li .item {
+    display: flex;
+    position: relative;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    height: 50px;
+    padding: 5px;
+}
+
+.root .menu-items .listview li .item:active {
     background: $color-scheme-base-active;
 }
 
-.root .menu-items .listview > li:active::after {
+.root .menu-items .listview li .item:active::after {
     content: '';
     display: block;
     position: absolute;
     right: 0;
     bottom: 0;
     height: 1px;
-    width: 85%;
+    width: 100%;
     background: $color-scheme-base-active;
 }
 
-.root .menu-items .listview > li::after {
+.root .menu-items .listview li .item::after {
     content: '';
     display: block;
     position: absolute;
     right: 0;
     bottom: 0;
     height: 1px;
-    width: 85%;
+    width: 100%;
     background: #BABABA;
 }
 
-.root .menu-items .listview > li:last-child::after {
+.root .menu-items .listview li:last-child::after {
     content: '';
     display: block;
     position: absolute;
@@ -193,25 +201,20 @@ export default {
     height: 0;
 }
 
-.root .menu-items .listview > li .item {
-    display: flex;
-    position: relative;
-    align-items: center;
-    gap: 12px;
-    width: 100%;
-    height: 50px;
-}
-
-.root .menu-items .listview > li .item > img {
+.root .menu-items .listview li .item img {
     width: 15px;
     height: auto;
 }
 
-.root .menu-items .listview > li .label {
+.root .menu-items .listview li .item .label {
     display: block;
     width: 100%;
     font-size: $font-size-list-item;
     line-height: 0.95rem;
+}
+
+.root .menu-items .listview li .item:active .label {
+    color: $font-color-primary !important;
 }
 
 .root .menu-items .menu-flap {
@@ -227,7 +230,7 @@ export default {
     background: $color-scheme-base;
 }
 
-.root .menu-items .menu-flap > img {
+.root .menu-items .menu-flap img {
     width: 70%;
     height: auto;
 }

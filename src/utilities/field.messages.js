@@ -57,7 +57,6 @@ var emptyDropdownMessage = function (field = '') {
     return 'Please select ' + field + ' from the list of dropdown!'
 }
 
-
 module.exports = {
     emptyInputMessage,
     noMinimumLengthMessage,

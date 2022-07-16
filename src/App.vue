@@ -35,7 +35,7 @@ html, body {
     font-family: $font-family-main !important;
     font-size: 15px !important;
     letter-spacing: 0.1rem;
-    width: 100vw;
+    width: 100%;
     min-height: 100vh;
     margin: 0;
     padding: 0;
@@ -56,15 +56,19 @@ body::-webkit-scrollbar {
     position: relative;
     display: block;
     width: 100%;
-    height: 100%;
+    min-height: 100vh;
+    overflow: auto;
 }
 
 .base {
+    position: relative;
+    display: block;
     width: 100%;
-    height: 100%;
+    min-height: 100vh;
     margin: 0;
     padding: 0;
     border: 0;
+    overflow: auto;
 }
 
 .header {

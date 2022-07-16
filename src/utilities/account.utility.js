@@ -1,3 +1,7 @@
+/**
+ * Information of an Account Group Type.
+ * @type { Object }
+ */
 const ACCOUNT_GROUP_TYPE = {
     SUPER_ADMIN: {
         label: 'Super Administrator',
@@ -31,6 +35,10 @@ const ACCOUNT_GROUP_TYPE = {
     }
 }
 
+/**
+ * Information of Gender Type
+ * @type { Object }
+ */
 const GENDER_TYPE = {
     FEMALE: {
         index: 0,
@@ -42,10 +50,48 @@ const GENDER_TYPE = {
     }
 }
 
+/**
+ * Information of Gender Type Index
+ * @type { Object }
+ */
+const GENDER_TYPE_INDEX = {
+    0: 'Female',
+    1: 'Male'
+}
+
+/**
+ * Minimum age of registration.
+ * @type { Number }
+ */
 const MINIMUM_AGE = 18
+
+/**
+ * Status of an account.
+ * @type { Array }
+ */
+const ACCOUNT_STATUS = [
+    {
+        index: 1,
+        status: 'ACTIVE',
+    },
+    {
+        index: 2,
+        status: 'SUSPENDED',
+    },
+    {
+        index: 3,
+        status: 'INACTIVE',
+    },
+    {
+        index: 4,
+        status: 'DELETED',
+    }
+]
 
 module.exports = {
     ACCOUNT_GROUP_TYPE,
     GENDER_TYPE,
-    MINIMUM_AGE
+    GENDER_TYPE_INDEX,
+    MINIMUM_AGE,
+    ACCOUNT_STATUS
 }

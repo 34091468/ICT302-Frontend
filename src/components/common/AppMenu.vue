@@ -4,7 +4,7 @@
         <template v-if='isMobileApp()'>
             <div class='appMenu-mobile'>
                 <div class='card-header'>
-                    <img src='@/assets/app/app-banner-center-main.png' alt=''>
+                    <img src='@/assets/app/app-mu-banner-center-black.png' alt=''>
                     <div class='sidebar'>
                         <Sidebar :menuData='MOBILE_MENU_OPTIONS'></Sidebar>
                     </div>
@@ -22,7 +22,7 @@
         <template v-else>
             <div class='appMenu'>
                 <div class='card-header'>
-                    <img src='@/assets/app/app-banner-center-main.png' alt=''>
+                    <img src='@/assets/app/app-mulong-banner-left-black.png' alt=''>
                 </div>
 
                 <div class='menu'>
@@ -32,6 +32,7 @@
                             :label='item.label'
                             :expanded='true'
                             color='primary'
+                            outlined
                             @clicked='routeByName(item.route)'
                         ></FButton>
                     </template>
@@ -70,7 +71,7 @@ export default {
             },
             {
                 label: 'Unit',
-                route: ''
+                route: 'Units'
             },
             {
                 label: 'Teaching Space',
@@ -98,27 +99,22 @@ export default {
             openOnStart: false,
             items: [
                 {
-                    icon: 'login-black.png',
                     label: 'Account Management',
                     route: 'Accounts'
                 },
                 {
-                    icon: 'login-black.png',
                     label: 'Unit',
-                    route: ''
+                    route: 'Units'
                 },
                 {
-                    icon: 'login-black.png',
                     label: 'Teaching Space',
                     route: ''
                 },
                 {
-                    icon: 'login-black.png',
                     label: 'Reports',
                     route: ''
                 },
                 {
-                    icon: 'login-black.png',
                     label: 'About',
                     route: ''
                 }

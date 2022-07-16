@@ -15,8 +15,12 @@ import Login from '../views/common/Login.vue'
 import Portal from '../views/common/Portal.vue'
 import Accounts from '../views/accounts/Accounts.vue'
 import AccountsForm from '../views/accounts/AccountsForm.vue'
+import AccountsEdit from '../views/accounts/AccountsEdit.vue'
+import Units from '../views/units/Units.vue'
+import UnitForm from '../views/units/UnitForm.vue'
+import UnitView from '../views/units/UnitView.vue'
 
-import Test from '../views/Test.vue'
+// import Test from '../views/Test.vue'
 
 Vue.use(VueRouter)
 
@@ -53,9 +57,31 @@ const routes = [
         props: true
     },
     {
+        path: '/accounts-edit/:accountId',
+        name: 'EditAccount',
+        component: AccountsEdit,
+        props: true
+    },
+    {
+        path: '/units',
+        name: 'Units',
+        component: Units
+    },
+    {
+        path: '/units/create',
+        name: 'UnitForm',
+        component: UnitForm
+    },
+    {
+        path: '/units/view/:unit_id',
+        name: 'UnitView',
+        component: UnitView,
+        props: true
+    },
+    {
         path: '/test',
         name: 'Test',
-        component: Test
+        component: UnitView
     }
 //   {
 //     path: '/about',
