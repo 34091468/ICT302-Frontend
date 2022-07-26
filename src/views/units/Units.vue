@@ -129,8 +129,6 @@ export default {
             'message': ''
         }
         
-        
-
         return {
             TABLE_OPTIONS,
         }

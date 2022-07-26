@@ -15,7 +15,7 @@
                 :disabled='EnrolmentTable.selected === null'
                 @clicked='routeByName( "classView", {
                     unit_id: unit_id,
-                    class_id: EnrolmentTable.selected.class_id
+                    class_id: EnrolmentTable.selected.class_id.toString()
                 } )'></FButton>
             </div>
 
@@ -111,6 +111,11 @@ export default {
             .then((response) => {
                 if ( response.status === 200 ) {
                     this.EnrolmentTable.data = response.data.data
+                    this.EnrolmentTable.status = response.status
+                    this.EnrolmentTable.message = response.data.message
+                }
+
+                else {
                     this.EnrolmentTable.status = response.status
                     this.EnrolmentTable.message = response.data.message
                 }
