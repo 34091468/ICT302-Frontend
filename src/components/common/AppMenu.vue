@@ -75,7 +75,7 @@ export default {
             },
             {
                 label: 'Teaching Space',
-                route: ''
+                route: 'TeachingSpaces'
             },
             {
                 label: 'Reports',

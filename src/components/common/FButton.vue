@@ -126,7 +126,7 @@ button {
     justify-content: center;
     align-items: center;
     position: relative;
-    min-width: 25px;
+    min-width: 75px;
     width: 100%;
     height: 35px;
     gap: 8px;

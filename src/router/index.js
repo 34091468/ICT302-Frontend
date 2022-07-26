@@ -19,6 +19,9 @@ import AccountsEdit from '../views/accounts/AccountsEdit.vue'
 import Units from '../views/units/Units.vue'
 import UnitForm from '../views/units/UnitForm.vue'
 import UnitView from '../views/units/UnitView.vue'
+import ClassForm from '../views/classes/EnrolmentClassForm.vue'
+import ClassView from '../views/classes/EnrolmentClassView.vue'
+import TeachingSpaces from '../views/teaching-space/TeachingSpaces.vue'
 
 // import Test from '../views/Test.vue'
 
@@ -77,6 +80,23 @@ const routes = [
         name: 'UnitView',
         component: UnitView,
         props: true
+    },
+    {
+        path: '/class/create/:unit_id',
+        name: 'classForm',
+        component: ClassForm,
+        props: true
+    },
+    {
+        path: '/class/view/:unit_id/:class_id',
+        name: 'classView',
+        component: ClassView,
+        props: true
+    },
+    {
+        path: '/teaching-spaces',
+        name: 'TeachingSpaces',
+        component: TeachingSpaces,
     },
     {
         path: '/test',

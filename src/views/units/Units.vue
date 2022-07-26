@@ -141,10 +141,6 @@ export default {
             return this.selected === null
         },
 
-        print() {
-            console.log(this.TABLE_OPTIONS.selected)
-        },
-
         /**
          * Changes the view of tab.
          */

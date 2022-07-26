@@ -90,11 +90,15 @@
                         </template>
                     </template>
                     <template v-else-if='selectedTab === "ENROLMENT"'>
-                        <div>ENROLMENT</div>
+                        <Enrolments :unit_id='unitInfo.data.unit_id'></Enrolments>
                     </template>
                     <template v-else-if='selectedTab === "TEACHING_STAFF"'>
                         <TeachingStaffs
                         :unit_id='unitInfo.data.unit_id'></TeachingStaffs>
+                    </template>
+                    <template v-else-if='selectedTab === "CLASSES"'>
+                        <EnrolmentClass
+                        :unit_id='unitInfo.data.unit_id'></EnrolmentClass>
                     </template>
                 </transition>
             </template>
@@ -111,7 +115,9 @@
 <script>
 import AppHeader from '@/components/common/AppMenu.vue'
 import UnitEdit from '@/views/units/UnitEdit.vue'
+import Enrolments from '@/views/enrolment/Enrolments.vue'
 import TeachingStaffs from '@/views/teaching-staffs/TeachingStaffs.vue'
+import EnrolmentClass from '@/views/classes/EnrolmentClass.vue'
 import FButton from '@/components/common/FButton.vue'
 import FStatusResponses from '@/components/status/FStatusResponses.vue'
 import { convertDate } from '@/utilities/date.utility.js'
@@ -128,7 +134,9 @@ export default {
     components: {
         AppHeader,
         UnitEdit,
+        Enrolments,
         TeachingStaffs,
+        EnrolmentClass,
         FButton,
         FStatusResponses
     },
@@ -166,6 +174,13 @@ export default {
                 label: 'Teaching Staffs',
                 key: 'TEACHING_STAFF',
                 slug: 'teaching staff',
+                selected: false,
+            },
+
+            'CLASSES': {
+                label: 'Classes',
+                key: 'CLASSES',
+                slug: 'classes',
                 selected: false,
             }
         }
