@@ -23,6 +23,15 @@ export var convertDate = function(dateString, short) {
     return dd + ' ' + mm + ' ' + yyyy
 }
 
+export var convertDateTime = function( item ) {
+    let dateString = convertDate( item, true )
+    let dateObject = new Date(item)
+    let hh = dateObject.getHours()
+    let mm = dateObject.getMinutes()
+    if (mm.length < 2) mm = '0' + mm
+    return dateString + ' ' + hh + ':' + mm
+}
+
 export var convertYear = function(dateString) {
     let date = new Date(dateString)
     return date.getFullYear()

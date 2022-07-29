@@ -13,6 +13,7 @@ import Login from '../views/common/Login.vue'
  */
 
 import Portal from '../views/common/Portal.vue'
+import StudentPortal from '../views/common/StudentPortal.vue'
 import Accounts from '../views/accounts/Accounts.vue'
 import AccountsForm from '../views/accounts/AccountsForm.vue'
 import AccountsEdit from '../views/accounts/AccountsEdit.vue'
@@ -21,7 +22,10 @@ import UnitForm from '../views/units/UnitForm.vue'
 import UnitView from '../views/units/UnitView.vue'
 import ClassForm from '../views/classes/EnrolmentClassForm.vue'
 import ClassView from '../views/classes/EnrolmentClassView.vue'
+import StudentClasses from '../views/classes/StudentClasses.vue'
 import TeachingSpaces from '../views/teaching-space/TeachingSpaces.vue'
+
+import StudentLearningActivity from '../views/learning-activity/StudentLearningActivity.vue'
 
 // import Test from '../views/Test.vue'
 
@@ -47,6 +51,24 @@ const routes = [
         path: '/portal',
         name: 'Portal',
         component: Portal
+    },
+    {
+        path: '/student-portal/:account_id',
+        name: 'StudentPortal',
+        component: StudentPortal,
+        props: true
+    },
+    {
+        path: '/student-portal/classes/:account_id/:unit_id/:enrolment_id',
+        name: 'StudentClasses',
+        component: StudentClasses,
+        props: true
+    },
+    {
+        path: '/student-portal/learning-activities/:account_id/:unit_id/:enrolment_id/:class_list_id/:class_id',
+        name: 'StudentLearningActivity',
+        component: StudentLearningActivity,
+        props: true
     },
     {
         path: '/accounts',

@@ -1,46 +1,92 @@
 <template>
     <div>
-        <!-- ELEMENTS: MOBILE APP -->
-        <template v-if='isMobileApp()'>
-            <div class='appMenu-mobile'>
-                <div class='card-header'>
-                    <img src='@/assets/app/app-mu-banner-center-black.png' alt=''>
-                    <div class='sidebar'>
-                        <Sidebar :menuData='MOBILE_MENU_OPTIONS'></Sidebar>
+        <template v-if='group!="STUDENT"'>
+            <!-- ELEMENTS: MOBILE APP -->
+            <template v-if='isMobileApp()'>
+                <div class='appMenu-mobile'>
+                    <div class='card-header'>
+                        <img src='@/assets/app/app-mu-banner-center-black.png' alt=''>
+                        <div class='sidebar'>
+                            <Sidebar :menuData='MOBILE_MENU_OPTIONS'></Sidebar>
+                        </div>
+                        <div class='menu'>
+                            <img class='menuIcon' src='@/assets/icons/accounts/account-white.png' alt=''>
+                        </div>
+                    </div>                
+                </div>
+            </template>
+            
+            <!-- ELEMENTS: MOBILE APP -->
+            <!-- END -->
+
+            <!-- ELEMENTS: DESKTOP APP -->
+            <template v-else>
+                <div class='appMenu'>
+                    <div class='card-header'>
+                        <img src='@/assets/app/app-mulong-banner-left-black.png' alt=''>
                     </div>
+
                     <div class='menu'>
-                        <img class='menuIcon' src='@/assets/icons/accounts/account-white.png' alt=''>
+                        <template v-for='item in DESKTOP_MENU_OPTIONS'>
+                            <FButton
+                                :key='item.label'
+                                :label='item.label'
+                                :expanded='true'
+                                color='primary'
+                                outlined
+                                @clicked='routeByName(item.route)'
+                            ></FButton>
+                        </template>
                     </div>
-                </div>                
-            </div>
+                </div>
+            </template>
+            <!-- ELEMENTS: DESKTOP APP -->
+            <!-- END -->
         </template>
-        
-        <!-- ELEMENTS: MOBILE APP -->
-        <!-- END -->
 
-        <!-- ELEMENTS: DESKTOP APP -->
         <template v-else>
-            <div class='appMenu'>
-                <div class='card-header'>
-                    <img src='@/assets/app/app-mulong-banner-left-black.png' alt=''>
+            <!-- ELEMENTS: MOBILE APP -->
+            <template v-if='isMobileApp()'>
+                <div class='appMenu-mobile'>
+                    <div class='card-header'>
+                        <img src='@/assets/app/app-mu-banner-center-black.png' alt=''>
+                        <div class='sidebar'>
+                            <Sidebar :menuData='MOBILE_MENU_OPTIONS_STUDENT'></Sidebar>
+                        </div>
+                        <div class='menu'>
+                            <img class='menuIcon' src='@/assets/icons/accounts/account-white.png' alt=''>
+                        </div>
+                    </div>                
                 </div>
+            </template>
+            
+            <!-- ELEMENTS: MOBILE APP -->
+            <!-- END -->
 
-                <div class='menu'>
-                    <template v-for='item in DESKTOP_MENU_OPTIONS'>
-                        <FButton
-                            :key='item.label'
-                            :label='item.label'
-                            :expanded='true'
-                            color='primary'
-                            outlined
-                            @clicked='routeByName(item.route)'
-                        ></FButton>
-                    </template>
+            <!-- ELEMENTS: DESKTOP APP -->
+            <template v-else>
+                <div class='appMenu'>
+                    <div class='card-header'>
+                        <img src='@/assets/app/app-mulong-banner-left-black.png' alt=''>
+                    </div>
+
+                    <div class='menu'>
+                        <template v-for='item in DESKTOP_MENU_OPTIONS_STUDENT'>
+                            <FButton
+                                :key='item.label'
+                                :label='item.label'
+                                :expanded='true'
+                                color='primary'
+                                outlined
+                                @clicked='routeByName(item.route)'
+                            ></FButton>
+                        </template>
+                    </div>
                 </div>
-            </div>
+            </template>
+            <!-- ELEMENTS: DESKTOP APP -->
+            <!-- END -->
         </template>
-        <!-- ELEMENTS: DESKTOP APP -->
-        <!-- END -->
     </div>
 </template>
 
@@ -52,7 +98,12 @@ import Sidebar from '@/components/navigations/sidebar.vue'
 export default {
     name: 'AppMenu',
 
-    props: {},
+    props: {
+        group: {
+            type: String,
+            default: ''
+        }
+    },
 
     components: {
         FButton,
@@ -80,6 +131,25 @@ export default {
             {
                 label: 'Reports',
                 route: ''
+            },
+            {
+                label: 'About',
+                route: ''
+            },
+            {
+                label: 'Profile',
+                route: ''
+            }
+        ]
+
+        /**
+         * Configuration for desktop menu in home page for student 
+         * @type { object }
+         */
+        const DESKTOP_MENU_OPTIONS_STUDENT = [
+            {
+                label: 'Unit',
+                route: 'Units'
             },
             {
                 label: 'About',
@@ -121,9 +191,33 @@ export default {
             ]
         }
 
+        /** 
+         * Configuration for mobile menu in home page for student 
+         * @type { object }
+         */
+        const MOBILE_MENU_OPTIONS_STUDENT = {
+            openOnStart: false,
+            items: [
+                {
+                    label: 'Unit',
+                    route: 'Units'
+                },
+                {
+                    label: 'Reports',
+                    route: ''
+                },
+                {
+                    label: 'About',
+                    route: ''
+                }
+            ]
+        }
+
         return {
             DESKTOP_MENU_OPTIONS,
-            MOBILE_MENU_OPTIONS
+            DESKTOP_MENU_OPTIONS_STUDENT,
+            MOBILE_MENU_OPTIONS,
+            MOBILE_MENU_OPTIONS_STUDENT
         }
     }
 }

@@ -35,15 +35,7 @@
                     :message='TABLE_OPTIONS.message'/>
                 </template>
 
-                <div class='header'> Learning Activities </div>
-                <div class='view-controls'>
-                    <FButton 
-                    label='Create'
-                    icon='common/add-white.png'
-                    color='success'
-                    @clicked='switchView()'>
-                    </FButton>
-                </div>
+                <LearningActivityList :class_id='class_id' :class_list_ids='classListId'></LearningActivityList>
             </div>
         </template>
 
@@ -96,6 +88,7 @@
 import AppHeader from '@/components/common/AppMenu.vue'
 import FButton from '@/components/common/FButton.vue'
 import FStatusResponses from '@/components/status/FStatusResponses.vue'
+import LearningActivityList from '@/views/learning-activity/LearningActivityList.vue'
 import { AInstance } from '@/toolbox/TAxios.js'
 
 export default {
@@ -114,6 +107,7 @@ export default {
     components: {
         AppHeader,
         FButton,
+        LearningActivityList,
         FStatusResponses
     },
 
@@ -148,6 +142,8 @@ export default {
             'message': ''
         }
 
+        var classListId = []
+
         var ADD_TABLE_OPTIONS = {
             'columns': [
                 {
@@ -175,6 +171,7 @@ export default {
         return {
             addEnrolmentToClass,
             TABLE_OPTIONS,
+            classListId,
             ADD_TABLE_OPTIONS
         }
     },
@@ -187,20 +184,25 @@ export default {
 
         getEnroledStudents() {
             AInstance.get('/api/classes/', {
-                    params: {
-                        unit_id: this.unit_id,
-                        class_id: this.class_id
-                    }
-                })
-                .then( ( response ) => {
-                    if ( response.status === 200 ) {
-                        this.TABLE_OPTIONS.code = response.data.code
-                        this.TABLE_OPTIONS.data = response.data.data
-                        this.TABLE_OPTIONS.message = response.data.message
+                params: {
+                    unit_id: this.unit_id,
+                    class_id: this.class_id
+                }
+            })
+            .then( ( response ) => {
+                if ( response.status === 200 ) {
+                    this.TABLE_OPTIONS.code = response.data.code
+                    this.TABLE_OPTIONS.data = response.data.data
+                    this.TABLE_OPTIONS.message = response.data.message
+                    
+                    
+                    response.data.data.forEach(item => {
+                        this.classListId.push( item.class_list_id )
+                    })
 
-                    }
-                })
-                .catch((error) => {
+                }
+            })
+            .catch((error) => {
                 this.TABLE_OPTIONS.code = error.response.data.code
                 this.TABLE_OPTIONS.message = error.response.data.message
             })
@@ -224,7 +226,7 @@ export default {
                 .catch((error) => {
                 this.ADD_TABLE_OPTIONS.code = error.response.data.code
                 this.ADD_TABLE_OPTIONS.message = error.response.data.message
-            })
+                })
         },
 
         addStudent() {
@@ -238,6 +240,12 @@ export default {
                         this.getEnroledStudents()
                         this.getAvailableStudents()
                         this.switchView()
+
+                        this.$buefy.toast.open({
+                            duration: 3000,
+                            type: 'is-success',
+                            messgae: 'Student is now added into the class!'
+                        })
                     }
                 })
                 .catch((error) => {

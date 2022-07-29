@@ -160,7 +160,12 @@ export default {
                         message: response.data.message
                     })
                     localStorage.token = response.data.token
-                    this.routeByName('Portal')
+                    console.log( response.data.group_type )
+                    console.log(response)
+                    if ( response.data.group_type === 5 || response.data.group_type === 'STUDENT' ) this.routeByName('StudentPortal', {
+                        account_id: response.data.account_id
+                    })
+                    else this.routeByName('Portal')
                 })
                 .catch((error) => {
                     console.log('error')
