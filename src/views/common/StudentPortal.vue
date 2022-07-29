@@ -62,6 +62,8 @@ export default {
 
     mounted() {
         this.getStudentEnrolment()
+        localStorage.setItem( 'account_id', this.account_id )
+        
     },
 
     data() {
@@ -110,9 +112,13 @@ export default {
 
         getStudentEnrolment () {
 
+            let accountId = 0
+            if ( localStorage.account_id !== null && localStorage.account_id !== undefined ) accountId = Number.parseInt(localStorage.account_id)
+            else accountId = this.account_id
+
             AInstance.get( '/api/enrolment/student', {
                 params: {
-                    account_id: this.account_id
+                    account_id: accountId
                 }
             } )
             .then( ( response ) => {
@@ -121,7 +127,6 @@ export default {
                     this.TABLE_OPTIONS.code = response.data.code
                     this.TABLE_OPTIONS.message = response.data.message
                     response.data.data.forEach( item => {
-                        console.log(item)
                         this.TABLE_OPTIONS.data.push(
                             {
                                 unit_id: item.unit_id,
@@ -144,8 +149,11 @@ export default {
 
         viewClasses() {
             
+            let accountId = 0
+            if ( localStorage.account_id !== null && localStorage.account_id !== undefined ) accountId = Number.parseInt(localStorage.account_id)
+            else accountId = this.account_id
             this.routeByName( 'StudentClasses', {
-                account_id: this.account_id,
+                account_id: accountId,
                 unit_id: this.TABLE_OPTIONS.selected.unit_id,
                 enrolment_id: this.TABLE_OPTIONS.selected.enrolment_id
             } )

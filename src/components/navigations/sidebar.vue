@@ -7,12 +7,22 @@
             <div class='menu-items' v-if='menuOpened'>
                 <ul class='listview'>
                     <li v-for='item in menuData.items' :key='item.label'>
-                        <div class='item' @click='routeByName(item.route)'>
-                            <img v-if='hasIcon(item.icon)' :src='getIcon(item.icon)' alt="">
-                            <div class='label'>
-                                {{ item.label }}
+                        <template v-if='item.label==="Logout"'>
+                            <div class='item' @click='logout(item.route)'>
+                                <img v-if='hasIcon(item.icon)' :src='getIcon(item.icon)' alt="">
+                                <div class='label'>
+                                    {{ item.label }}
+                                </div>
                             </div>
-                        </div>
+                        </template>
+                        <template v-else>
+                            <div class='item' @click='routeByName(item.route)'>
+                                <img v-if='hasIcon(item.icon)' :src='getIcon(item.icon)' alt="">
+                                <div class='label'>
+                                    {{ item.label }}
+                                </div>
+                            </div>
+                        </template>
                     </li>
                 </ul>
             </div>

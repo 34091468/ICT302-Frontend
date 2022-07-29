@@ -24,83 +24,89 @@
                     </div>
                 </div>
 
-                <transition name='fade' mode='out-in'>
-                    
-                    <template v-if='selectedTab === "UNIT"'>
-                        <template v-if='!TABS_OPTIONS[selectedTab].onEdit'>
-                            <div class='unit-card'>
-                                <div class='view-controls'>
-                                    <FButton
-                                    label='Edit'
-                                    icon='common/edit-white.png'
-                                    color='warning'
-                                    @clicked='TABS_OPTIONS[selectedTab].onEdit = true'
-                                    ></FButton>
+                <template v-if='selectedTab === "UNIT"'>
+                    <template v-if='!TABS_OPTIONS[selectedTab].onEdit'>
+                        <div class='unit-card'>
+                            <div class='view-controls'>
+                                <FButton
+                                label='Edit'
+                                icon='common/edit-white.png'
+                                color='warning'
+                                @clicked='TABS_OPTIONS[selectedTab].onEdit = true'
+                                ></FButton>
+                            </div>
+                            <div class='unit-info'>
+                                <div class='key'>
+                                    Date of Commencement
                                 </div>
-                                <div class='unit-info'>
-                                    <div class='key'>
-                                        Date of Commencement
-                                    </div>
-                                    <div class='value'>
-                                        {{ unitInfo.data.start_date }}
-                                    </div>
-                                </div>
-
-                                <div class='unit-info'>
-                                    <div class='key'>
-                                        Date of Completion
-                                    </div>
-                                    <div class='value'>
-                                        {{ unitInfo.data.end_date }}
-                                    </div>
-                                </div>
-
-                                <div class='unit-info'>
-                                    <div class='key'>
-                                        Status
-                                    </div>
-                                    <div class='value'>
-                                        {{ unitInfo.data.status }}
-                                    </div>
-                                </div>
-
-                                <div class='unit-info'>
-                                    <div class='key'>
-                                        Unit Coordinator Id
-                                    </div>
-                                    <div class='value'>
-                                        {{ unitInfo.data.uc.user_id }}
-                                    </div>
-                                </div>
-
-                                <div class='unit-info'>
-                                    <div class='key'>
-                                        Unit Coordinator Name
-                                    </div>
-                                    <div class='value'>
-                                        {{ unitInfo.data.uc.user_name }}
-                                    </div>
+                                <div class='value'>
+                                    {{ unitInfo.data.start_date }}
                                 </div>
                             </div>
-                        </template>
 
-                        <template v-else>
-                            <UnitEdit :unit='unitInfo.data'
-                            @return='refresh'></UnitEdit>
-                        </template>
+                            <div class='unit-info'>
+                                <div class='key'>
+                                    Date of Completion
+                                </div>
+                                <div class='value'>
+                                    {{ unitInfo.data.end_date }}
+                                </div>
+                            </div>
+
+                            <div class='unit-info'>
+                                <div class='key'>
+                                    Status
+                                </div>
+                                <div class='value'>
+                                    {{ unitInfo.data.status }}
+                                </div>
+                            </div>
+
+                            <div class='unit-info'>
+                                <div class='key'>
+                                    Unit Coordinator Id
+                                </div>
+                                <div class='value'>
+                                    {{ unitInfo.data.uc.user_id }}
+                                </div>
+                            </div>
+
+                            <div class='unit-info'>
+                                <div class='key'>
+                                    Unit Coordinator Name
+                                </div>
+                                <div class='value'>
+                                    {{ unitInfo.data.uc.user_name }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <b-button
+                            type='is-info'
+                            @click='downloadAttendanceReport()'>
+                                Download Attendance Report
+                            </b-button>
+                        </div>
                     </template>
-                    <template v-else-if='selectedTab === "ENROLMENT"'>
-                        <Enrolments :unit_id='unitInfo.data.unit_id'></Enrolments>
+
+                    <template v-else>
+                        <UnitEdit :unit='unitInfo.data'
+                        @return='refresh'></UnitEdit>
                     </template>
-                    <template v-else-if='selectedTab === "TEACHING_STAFF"'>
-                        <TeachingStaffs
-                        :unit_id='unitInfo.data.unit_id'></TeachingStaffs>
-                    </template>
-                    <template v-else-if='selectedTab === "CLASSES"'>
-                        <EnrolmentClass
-                        :unit_id='unitInfo.data.unit_id'></EnrolmentClass>
-                    </template>
-                </transition>
+                </template>
+                <template v-else-if='selectedTab === "ENROLMENT"'>
+                    <Enrolments :unit_id='unitInfo.data.unit_id'></Enrolments>
+                </template>
+                <template v-else-if='selectedTab === "TEACHING_STAFF"'>
+                    <TeachingStaffs
+                    :unit_id='unitInfo.data.unit_id'></TeachingStaffs>
+                </template>
+                <template v-else-if='selectedTab === "CLASSES"'>
+                    <EnrolmentClass
+                    :unit_id='unitInfo.data.unit_id'></EnrolmentClass>
+                </template>
+
             </template>
             <template v-else>
                 <FStatusResponses
@@ -122,7 +128,7 @@ import FButton from '@/components/common/FButton.vue'
 import FStatusResponses from '@/components/status/FStatusResponses.vue'
 import { convertDate } from '@/utilities/date.utility.js'
 import { AInstance } from '@/toolbox/TAxios.js'
-
+import fileDownload from 'js-file-download'
 export default {
     name: 'UnitView',
     props: {
@@ -232,6 +238,19 @@ export default {
             this.TABS_OPTIONS[tabOption].selected = true
             this.selectedTab = this.TABS_OPTIONS[tabOption].key
         },
+
+        downloadAttendanceReport() {
+
+            AInstance.get( '/api/download/unit-attendance', {
+                responseType: 'blob',
+                params: {
+                    unit_id: this.unit_id
+                }
+            } )
+            .then( response => {
+                fileDownload(response.data, 'report.csv')
+            })
+        }
     }
 }
 </script>

@@ -59,6 +59,15 @@
                             aria-previos-label="Previous"
                             aria-page-label="Page"
                             aria-current-label="Current" ></b-table>
+
+                            <div v-if='option ==="STUDENT"'> 
+                                
+                                <b-button
+                                type='is-info'
+                                @click='downloadStudentReport()'>
+                                    Download Student Account Report
+                                </b-button>
+                            </div>
                         </template>
                         
                         <template v-else>
@@ -67,6 +76,8 @@
                             :message='TABS_OPTIONS[option].message'
                             ></FStatusResponses>
                         </template>
+
+
                     </div>
 
                 </template>
@@ -84,6 +95,7 @@ import axios from 'axios'
 import { ACCOUNT_GROUP_TYPE, GENDER_TYPE_INDEX } from '@/utilities/account.utility.js'
 import { convertDate } from '@/utilities/date.utility.js'
 import { AInstance } from '@/toolbox/TAxios.js'
+import fileDownload from 'js-file-download'
 
 export default {
     name: 'Accounts',
@@ -294,6 +306,16 @@ export default {
                         item.dob = convertDate(item.dob, true)
                     })
                 }
+            })
+        },
+
+        downloadStudentReport() {
+
+            AInstance.get( '/api/download/all-students', {
+                responseType: 'blob'
+            } )
+            .then( response => {
+                fileDownload(response.data, 'report.csv')
             })
         }
     }

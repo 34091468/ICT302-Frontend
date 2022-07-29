@@ -45,6 +45,14 @@ Vue.mixin({
             }
         },
 
+        logout() {
+            
+            localStorage.clear()
+            this.$router.push( {
+                name: 'Home'
+            } )
+        },
+
         /**
          * Compares two dates.
          * @param { Date } lhs 

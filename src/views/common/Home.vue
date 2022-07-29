@@ -53,8 +53,14 @@ export default {
     },
 
     mounted() {
-        if (localStorage.token) {
-            this.routeByName('Portal')
+        if ( localStorage.group_type !== null && localStorage.group_type !== undefined ) {
+            if ( localStorage.group_type === 5 || localStorage.group_type === 'STUDENT' ) this.routeByName( 'StudentPortal', {
+                account_id: localStorage.account_id
+            } )
+
+            else {
+                this.routeByName( 'Portal' )
+            }
         }
     },
 

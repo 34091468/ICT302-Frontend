@@ -115,7 +115,6 @@ export default {
                     this.TABLE_OPTIONS.code = response.data.code
                     this.TABLE_OPTIONS.data = response.data.data
                     this.TABLE_OPTIONS.message = response.data.message
-                    console.log(this.TABLE_OPTIONS.data)   
                 }
             })
             .catch((error) => {

@@ -159,12 +159,16 @@ export default {
                         type: 'is-success',
                         message: response.data.message
                     })
+
                     localStorage.token = response.data.token
-                    console.log( response.data.group_type )
-                    console.log(response)
-                    if ( response.data.group_type === 5 || response.data.group_type === 'STUDENT' ) this.routeByName('StudentPortal', {
-                        account_id: response.data.account_id
-                    })
+                    localStorage.group_type = response.data.group_type
+                    if ( response.data.group_type === 5 || response.data.group_type === 'STUDENT' ) { 
+                        localStorage.account_id = response.data.account_id
+
+                        this.routeByName('StudentPortal', {
+                            account_id: response.data.account_id
+                        })
+                    }
                     else this.routeByName('Portal')
                 })
                 .catch((error) => {

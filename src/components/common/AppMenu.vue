@@ -28,14 +28,26 @@
 
                     <div class='menu'>
                         <template v-for='item in DESKTOP_MENU_OPTIONS'>
-                            <FButton
+                            <template v-if='item.label === "Logout"'>
+                                <FButton
+                                :key='item.label'
+                                :label='item.label'
+                                :expanded='true'
+                                color='primary'
+                                outlined
+                                @clicked='logout()'
+                                ></FButton>
+                            </template>
+                            <template v-else>
+                                <FButton
                                 :key='item.label'
                                 :label='item.label'
                                 :expanded='true'
                                 color='primary'
                                 outlined
                                 @clicked='routeByName(item.route)'
-                            ></FButton>
+                                ></FButton>
+                            </template>
                         </template>
                     </div>
                 </div>
@@ -72,14 +84,26 @@
 
                     <div class='menu'>
                         <template v-for='item in DESKTOP_MENU_OPTIONS_STUDENT'>
-                            <FButton
+                            <template v-if='item.label === "Logout"'>
+                                <FButton
+                                :key='item.label'
+                                :label='item.label'
+                                :expanded='true'
+                                color='primary'
+                                outlined
+                                @clicked='logout()'
+                                ></FButton>
+                            </template>
+                            <template v-else>
+                                <FButton
                                 :key='item.label'
                                 :label='item.label'
                                 :expanded='true'
                                 color='primary'
                                 outlined
                                 @clicked='routeByName(item.route)'
-                            ></FButton>
+                                ></FButton>
+                            </template>
                         </template>
                     </div>
                 </div>
@@ -129,16 +153,12 @@ export default {
                 route: 'TeachingSpaces'
             },
             {
-                label: 'Reports',
-                route: ''
-            },
-            {
                 label: 'About',
                 route: ''
             },
             {
-                label: 'Profile',
-                route: ''
+                label: 'Logout',
+                route: '/'
             }
         ]
 
@@ -148,16 +168,12 @@ export default {
          */
         const DESKTOP_MENU_OPTIONS_STUDENT = [
             {
-                label: 'Unit',
-                route: 'Units'
+                label: 'Home',
+                route: 'StudentPortal'
             },
             {
-                label: 'About',
-                route: ''
-            },
-            {
-                label: 'Profile',
-                route: ''
+                label: 'Logout',
+                route: '/'
             }
         ]
 
@@ -181,12 +197,8 @@ export default {
                     route: ''
                 },
                 {
-                    label: 'Reports',
-                    route: ''
-                },
-                {
-                    label: 'About',
-                    route: ''
+                    label: 'Logout',
+                    route: '/'
                 }
             ]
         }
@@ -199,16 +211,12 @@ export default {
             openOnStart: false,
             items: [
                 {
-                    label: 'Unit',
-                    route: 'Units'
+                    label: 'Home',
+                    route: 'StudentPortal'
                 },
                 {
-                    label: 'Reports',
-                    route: ''
-                },
-                {
-                    label: 'About',
-                    route: ''
+                    label: 'Logout',
+                    route: '/'
                 }
             ]
         }

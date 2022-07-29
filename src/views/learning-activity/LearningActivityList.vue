@@ -251,7 +251,6 @@ export default {
             .then( (response) => {
 
                 if ( response.status === 200 ) {
-                    console.log(response.data)
                     this.TABLE_OPTIONS.code = response.data.code
                     this.TABLE_OPTIONS.data = response.data.data
                     this.TABLE_OPTIONS.message = response.data.message

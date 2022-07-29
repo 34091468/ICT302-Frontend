@@ -36,6 +36,14 @@
                 aria-current-label="Current">
 
                 </b-table>
+
+                <div>
+                    <b-button
+                    type='is-info'
+                    @click='downloadUnitReport()'>
+                        Download Units Report
+                    </b-button>
+                </div>
             </template>
             <template v-else>
                 <FStatusResponses
@@ -52,6 +60,7 @@ import FButton from '@/components/common/FButton.vue'
 import FStatusResponses from '@/components/status/FStatusResponses.vue'
 import { convertDate, convertYear } from '@/utilities/date.utility.js'
 import { AInstance } from '@/toolbox/TAxios.js'
+import fileDownload from 'js-file-download'
 
 export default {
     name: 'Units',
@@ -108,7 +117,7 @@ export default {
                     searchable: true
                 },
                 {
-                    field: 'uc.user_name',
+                    field: 'uc.full_name',
                     label: 'Unit Coordinator',
                     searchable: true
                 },
@@ -148,6 +157,16 @@ export default {
             this.TABS_OPTIONS[key].currentTab = true
             this.currentTab = key
         },
+
+        downloadUnitReport() {
+
+            AInstance.get( '/api/download/all-units', {
+                responseType: 'blob'
+            } )
+            .then( response => {
+                fileDownload(response.data, 'report.csv')
+            })
+        }
     }
 }
 </script>

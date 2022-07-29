@@ -9,7 +9,7 @@
                 icon='common/edit-white.png'
                 color='success'
                 @clicked='toProceedCheckIn()'
-                :disabled='TABLE_OPTIONS.selected === null'>
+                :disabled='TABLE_OPTIONS.selected === null || TABLE_OPTIONS.selected.status === 1'>
                 </FButton>
             </div>
 
@@ -25,13 +25,14 @@
                     <FButton 
                     label='Submit'
                     color='success'
-                    :disabled='PINInput.value < 6'
-                    @clicked='cancelProceedCheckIn()'>
+                    :disabled='PINInput.value.length < 6'
+                    @clicked='submitCode()'>
                     </FButton>
                 </div>
 
                 <b-input type=''
-                    :value='PINInput.value'
+                    v-model='PINInput.value'
+                    pattern='[0-9]*'
                     :maxlength='PINInput.pinLength'>
                 </b-input>
 
@@ -110,7 +111,7 @@ export default {
 
     mounted() {
         this.getLearningActivities()
-        
+        console.log(localStorage)
     },
 
     data() {
@@ -127,6 +128,11 @@ export default {
                 {
                     field: 'end_date',
                     label: 'Lesson End',
+                },
+
+                {
+                    field: 'attended_field',
+                    label: 'Attendance Checked'
                 }
             ],
             'data': [],
@@ -166,8 +172,12 @@ export default {
                     this.TABLE_OPTIONS.message = response.data.message
                     
                     this.TABLE_OPTIONS.data.forEach( item => {
+                        console.log(item)
                         item.start_date = convertDateTime(item.start_date)
                         item.end_date = convertDateTime(item.end_date)
+                        if ( item.attended === 0 || item.attended === null || item.attended === undefined ) {
+                            item.attended_field = 'No'
+                        } else item.attended_field = 'Yes'
                     } )
                 }
             })
@@ -177,8 +187,56 @@ export default {
             })
         },
 
-        toProceedCheckIn() { this.proceedCheckIn = true },
-        cancelProceedCheckIn() { this.proceedCheckIn = false } 
+        generateCode() {
+            AInstance.post( '/api/attendance/generate', {
+                attendance_id: this.TABLE_OPTIONS.selected.attendance_id
+            } )
+            .then( (response) => {
+                console.log(response)
+                if ( response.status === 201 ) {
+                    this.PINInput.received = response.data.PIN
+                    console.log( response.data )
+                    console.log(this.PINInput.received)
+                }
+            } )
+        },
+
+        submitCode() {
+            AInstance.post( '/api/attendance/attend', {
+                attendance_id: this.TABLE_OPTIONS.selected.attendance_id,
+                pin: this.PINInput.value
+            } )
+            .then( (response) => {
+                if ( response.status === 201 ) {
+                    this.cancelProceedCheckIn()
+                    this.$buefy.toast.open({
+                        duration: 5000,
+                        type: 'is-success',
+                        message: 'Your attendance has been taken!'
+                    })
+
+                    this.getLearningActivities()
+                }
+            } )
+            .catch( () => {
+                this.$buefy.toast.open({
+                    duration: 5000,
+                    type: 'is-danger',
+                    message: 'Invalid PIN. If problem persists, please contact your administrator for assistance!'
+                })
+            })
+        },
+
+        toProceedCheckIn() { 
+            if ( this.TABLE_OPTIONS.selected === null || this.TABLE_OPTIONS.selected === undefined ) return
+            if ( this.TABLE_OPTIONS.selected.status === 1 ) return
+            this.proceedCheckIn = true
+            this.generateCode()
+        },
+        cancelProceedCheckIn() { 
+            this.proceedCheckIn = false
+            this.TABLE_OPTIONS.selected = null
+        } 
     }
 }
 </script>
