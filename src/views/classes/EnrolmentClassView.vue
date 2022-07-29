@@ -210,9 +210,12 @@ export default {
         },
 
         getAvailableStudents() {
+            console.log( 'UnitId:', this.unit_id )
+            console.log( 'classId', this.class_id )
             AInstance.get('/api/classes/unenroled', {
                     params: {
-                        unit_id: this.unit_id
+                        unit_id: this.unit_id,
+                        class_id: this.class_id
                     }
                 })
                 .then( ( response ) => {
