@@ -14,7 +14,7 @@
             </div>
 
             <template v-if='proceedCheckIn'>
-                <div class='label'> Please enter 4 digit code </div>
+                <div class='label'> Please enter 6 digit code </div>
                 <div class='view-controls'>
                     <FButton 
                     label='Return'

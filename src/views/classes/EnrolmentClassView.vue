@@ -219,14 +219,16 @@ export default {
                     }
                 })
                 .then( ( response ) => {
+                    console.log(response)
                     if ( response.status === 200 ) {
                         this.ADD_TABLE_OPTIONS.code = response.data.code
                         this.ADD_TABLE_OPTIONS.data = response.data.data
                         this.ADD_TABLE_OPTIONS.message = response.data.message
-
+                        console.log( this.ADD_TABLE_OPTIONS.data )
                     }
                 })
                 .catch((error) => {
+                
                 this.ADD_TABLE_OPTIONS.code = error.response.data.code
                 this.ADD_TABLE_OPTIONS.message = error.response.data.message
                 })

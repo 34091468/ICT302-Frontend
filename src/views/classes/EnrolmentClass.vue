@@ -7,7 +7,7 @@
                 label='Create'
                 icon='common/add-white.png'
                 color='success'
-                @clicked='routeByName( "classForm", { unit_id: unit_id, class_id: EnrolmentTable.selected.class_id } )'></FButton>
+                @clicked='routeByName( "classForm", { unit_id: unit_id } )'></FButton>
                 <FButton
                 label='View'
                 icon='common/edit-white.png'
